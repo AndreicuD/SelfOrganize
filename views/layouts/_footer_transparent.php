@@ -7,9 +7,9 @@ declare(strict_types=1);
 use yii\helpers\Html;
 
 ?>
-<footer id="footer" class="mt-auto py-3 bg-body-tertiary">
+<footer id="footer" class="mt-auto py-3 footer-transparent">
     <div class="container">
-        <div class="row text-body-secondary">
+        <div class="row footer-transparent-text">
             <div class="col-md-6 text-center text-md-start">&copy; <?= Html::encode(Yii::$app->name) ?> <?= date('Y') ?></div>
             <div class="col-md-6 text-center text-md-end">
                 <?= Yii::t('app', 'Made with love by Huțanu Andrei ❤️') ?>

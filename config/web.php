@@ -5,6 +5,7 @@ $db = require __DIR__ . '/db.php';
 
 $config = [
     'id' => 'basic',
+    'name' => 'Self Organize',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
     'container' => [
@@ -24,7 +25,7 @@ $config = [
     'components' => [
         'request' => [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
-            'cookieValidationKey' => '',
+            'cookieValidationKey' => 'b9352494463399aa6a44ed5e39425b8a0bc39b2fc3d0184ba2583ce9bc4e4c1d',
         ],
         'cache' => [
             'class' => \yii\caching\FileCache::class,
@@ -52,9 +53,27 @@ $config = [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
+
             ],
         ],
         */
+        'urlManager' => [
+            'class' => 'yii\web\UrlManager',
+            'enablePrettyUrl' => true,
+            'showScriptName' => false,
+            'suffix' => '',
+            'rules' => [
+                '/' => 'site/index',
+                'about' => 'site/about',
+                'contact' => 'site/contact',
+                'login' => 'site/login',
+            ],
+            'normalizer' => [
+                'class' => 'yii\web\UrlNormalizer',
+                'action' => null, // No redirection by default
+                'normalizeTrailingSlash' => true, // This option is available in Yii 2.0.10 or higher
+            ],
+        ],
     ],
     'params' => $params,
 ];

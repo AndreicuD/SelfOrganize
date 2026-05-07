@@ -1,0 +1,14 @@
+<svg version="1.2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 128" width="1280" height="128">
+	<defs>
+		<image width="112" height="112" id="img1" href="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTEyIiBoZWlnaHQ9IjExMiIgdmlld0JveD0iMCAwIDExMiAxMTIiIHN0eWxlPSJmaWx0ZXI6IGRyb3Atc2hhZG93KHJnYmEoMCwgMCwgMCwgMC4yNSkgMHB4IDRweCA0MHB4KTsiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGZvcmVpZ25PYmplY3QgeD0iMzIiIHk9IjMyIiB3aWR0aD0iNDgiIGhlaWdodD0iNDgiPjxhMDpzdmcgeG1sbnM6YTA9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94aHRtbCIgd2lkdGg9IjI0IiBoZWlnaHQ9IjI0IiB2aWV3Qm94PSIwIDAgMjQgMjQiIGZpbGw9Im5vbmUiIHN0cm9rZT0iY3VycmVudENvbG9yIiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgY2xhc3M9Imx1Y2lkZSBsdWNpZGUtbGlnaHRidWxiIiBhcmlhLWhpZGRlbj0idHJ1ZSIgc3R5bGU9IndpZHRoOiA0OHB4OyBoZWlnaHQ6IDQ4cHg7IGNvbG9yOiByZ2IoMjU1LCAyNTUsIDI1NSk7Ij48YTA6cGF0aCBkPSJNMTUgMTRjLjItMSAuNy0xLjcgMS41LTIuNSAxLS45IDEuNS0yLjIgMS41LTMuNUE2IDYgMCAwIDAgNiA4YzAgMSAuMiAyLjIgMS41IDMuNS43LjcgMS4zIDEuNSAxLjUgMi41Ii8+PGEwOnBhdGggZD0iTTkgMThoNiIvPjxhMDpwYXRoIGQ9Ik0xMCAyMmg0Ii8+PC9hMDpzdmc+PC9mb3JlaWduT2JqZWN0Pjwvc3ZnPg=="/>
+	</defs>
+	<style>
+		tspan { white-space:pre } 
+		.t0 { font-size: 24px;fill: #ffffff;font-weight: 400;font-family: "Ubuntu-Regular", "Ubuntu" } 
+	</style>
+	<use id="lightbulb-logo" href="#img1" transform="matrix(1.143,0,0,1.143,576,0)"/>
+	<text id="Self Organize" transform="translate(752,0)">
+		<tspan x="0" y="68.2" class="t0">S</tspan><tspan  y="68.2" class="t0">e</tspan><tspan  y="68.2" class="t0">l</tspan><tspan  y="68.2" class="t0">f</tspan><tspan  y="68.2" class="t0"> </tspan><tspan  y="68.2" class="t0">O</tspan><tspan  y="68.2" class="t0">r</tspan><tspan  y="68.2" class="t0">g</tspan><tspan  y="68.2" class="t0">a</tspan><tspan  y="68.2" class="t0">n</tspan><tspan  y="68.2" class="t0">i</tspan><tspan  y="68.2" class="t0">z</tspan><tspan  y="68.2" class="t0">e</tspan><tspan  y="68.2" class="t0">
+</tspan>
+	</text>
+</svg>

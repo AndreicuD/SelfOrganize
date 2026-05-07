@@ -10,29 +10,13 @@ use yii\helpers\Html;
 
 $items = [
     [
-        'label' => 'Home',
-        'url' => ['/site/index'],
-    ],
-    [
-        'label' => 'About',
-        'url' => ['/site/about'],
-    ],
-    [
         'label' => 'Contact',
         'url' => ['/site/contact'],
-    ],
-    [
-        'label' => 'Login',
-        'url' => ['/site/login'],
         'visible' => Yii::$app->user->isGuest,
     ],
     [
-        'label' => 'Logout (' . Html::encode(Yii::$app->user->identity?->username ?? '') . ')',
-        'url' => ['/site/logout'],
-        'linkOptions' => [
-            'data-method' => 'post',
-            'class' => 'nav-link logout',
-        ],
+        'label' => 'Dashboard',
+        'url' => ['/user/index'],
         'visible' => !Yii::$app->user->isGuest,
     ],
 ];
@@ -42,6 +26,10 @@ $items = [
     <?php NavBar::begin(
         [
             'brandLabel' => Yii::$app->name,
+            'brandOptions' => [
+                'class' => 'inline-logo',
+                'style' => 'font-size: 1.2em',
+            ],
             'brandUrl' => Yii::$app->homeUrl,
             'options' => ['class' => 'navbar-expand-md navbar-dark bg-dark fixed-top']
         ],
@@ -53,6 +41,22 @@ $items = [
             'items' => $items,
         ],
     ) ?>
+    <?php
+        if (Yii::$app->user->isGuest) {
+            echo "<div class='btn-group login_logoutbutton'>";
+            
+            echo Html::a('Login',['user/login'],['class' => ['btn btn-primary btn-loginlogout text-decoration-none']]);
+
+            echo "</div>";
+        }
+        else {
+            echo "<div class='btn-group login_logoutbutton'>";
+            
+            echo Html::a('Logout (' . Html::encode(Yii::$app->user->identity?->username ?? '') . ')',['user/logout'],['data-method' => 'post', 'class' => ['btn btn-primary btn-loginlogout text-decoration-none']]);
+
+            echo "</div>";
+        }
+    ?>
     <?= Html::button(
         '&#127769;',
         [

@@ -9,8 +9,8 @@ use yii\bootstrap5\ActiveForm;
 use yii\bootstrap5\Html;
 
 $this->title = 'Login to your account';
-$this->params['breadcrumbs'][] = $this->title;
-$this->params['meta_description'] = 'Log in to access your Yii2 application account.';
+//$this->params['breadcrumbs'][] = $this->title;
+$this->params['meta_description'] = 'Log in to access your application account.';
 $this->params['meta_keywords'] = 'yii, yii2, login, sign in, authentication';
 $htmlIcon = <<<HTML
 {label}<div class="input-group"><span class="input-group-text" aria-hidden="true">%s</span>{input}</div>{error}{hint}
@@ -24,22 +24,22 @@ $labelOptions = ['class' => 'form-label fw-semibold small'];
             <!-- Brand panel -->
             <div class="col-md-5 d-none d-md-flex login-brand-panel text-white">
                 <div class="d-flex flex-column justify-content-between p-4 p-lg-5 w-100">
-                    <div>
+                    <div class="inline-logo">
                         <?= Html::img(
-                            Yii::getAlias('@web/images/yii3_full_white_for_dark.svg'),
+                            Yii::getAlias('@web/images/lightbulb-logo.svg'),
                             [
                                 'alt' => 'Yii Framework',
-                                'class' => 'mb-4',
-                                'height' => 40,
+                                'height' => 64,
                             ],
                         ) ?>
+                        <?= Yii::$app->name ?>
                     </div>
                     <div>
                         <h2 class="fw-bold mb-3 login-brand-title">
-                            Welcome<br>Back
+                            <?= Yii::t('app', 'Welcome<br>Back') ?>
                         </h2>
                         <p class="opacity-75 mb-0 login-brand-text">
-                            Log in to access your Yii2 application and manage your account.
+                            <?= Yii::t('app', 'Log in to access your data and manage your account.') ?>
                         </p>
                     </div>
                 </div>
@@ -50,18 +50,18 @@ $labelOptions = ['class' => 'form-label fw-semibold small'];
                 <div class="p-4 p-lg-5">
                     <div class="text-center mb-4">
                         <!-- Mobile-only logo -->
-                        <div class="d-md-none mb-3">
+                        <div class="d-md-none mb-3 inline-logo">
                             <?= Html::img(
-                                Yii::getAlias('@web/images/yii3_full_black_for_light.svg'),
+                                Yii::getAlias('@web/images/lightbulb-logo.svg'),
                                 [
                                     'alt' => 'Yii Framework',
-                                    'class' => 'login-mobile-logo',
-                                    'height' => 36,
+                                    'height' => 64,
                                 ],
                             ) ?>
+                            <?= Yii::$app->name ?>
                         </div>
                         <h1 class="h3 fw-bold mb-1"><?= Html::encode($this->title) ?></h1>
-                        <p class="text-body-secondary small">Enter your credentials to continue</p>
+                        <p class="text-body-secondary small"><?= Yii::t('app', 'Enter your credentials to continue</p>') ?>
                     </div>
 
                     <?php $form = ActiveForm::begin(['id' => 'login-form']); ?>
@@ -104,11 +104,6 @@ $labelOptions = ['class' => 'form-label fw-semibold small'];
                     </div>
 
                     <?php ActiveForm::end(); ?>
-
-                    <div class="text-body-secondary text-center mt-3 small">
-                        You may login with <strong>admin/admin</strong> or <strong>demo/demo</strong>.<br>
-                        To modify the username/password, check <code>app\models\User::$users</code>.
-                    </div>
 
                 </div>
             </div>
