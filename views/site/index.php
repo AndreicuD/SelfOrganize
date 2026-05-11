@@ -10,14 +10,14 @@ $this->params['meta_keywords'] = 'organize, php, yii, self, self organize';
 ?>
 <div class="site-index">
 
-    <div class='hero'>
+    <div class='hero user-select-none'>
         <div class='hero-inside'>
             <p class='hero-title'><?= Yii::$app->name ?></p>
             <p class='hero-text'><?= Yii::t('app', 'Do you want to start getting your life together? Start right here, right now!') ?></p>
         </div>
         <!-- From Uiverse.io by Creatlydev --> 
-        <button href="user/signup" class="cta-btn">
-            <span class="button__icon-wrapper">
+        <button href="user/signup" class='cta-btn'>
+            <span class='button__icon-wrapper'>
                 <svg
                     viewBox="0 0 14 15"
                     fill="none"

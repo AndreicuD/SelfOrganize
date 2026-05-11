@@ -1,38 +1,137 @@
 <?php
 
-declare(strict_types=1);
-
 namespace app\models;
 
-use yii\base\BaseObject;
+use Yii;
+use yii\base\NotSupportedException;
+use yii\data\ActiveDataProvider;
+use yii\db\ActiveRecord;
 use yii\web\IdentityInterface;
+use yii\behaviors\TimestampBehavior;
+use yii\db\Expression;
 
-class User extends BaseObject implements IdentityInterface
+/**
+* User model 
+* 
+* @property integer $id [int(auto increment)]
+* @property string $email [varchar(254)]
+* @property string $username [varchar(254)]
+
+* @property integer $status [smallint = 10]
+* @property string $auth_key [varchar(32)]
+* @property string $password_hash [varchar(254)]
+* @property string $password_reset_token [varchar(254)]
+* @property string $verification_token [varchar(254)]
+* @property integer $created_at [datetime]
+* @property integer $updated_at [timestamp = current_timestamp()]
+*
+* @property-read string $authKey
+* @property string $password write-only password
+*
+* @property AuthAssignment $role
+*/
+class User extends ActiveRecord implements IdentityInterface
 {
-    public int|string $id = '';
-    public string $username = '';
-    public string $passwordHash = '';
-    public string $authKey = '';
-    public string $accessToken = '';
+    const STATUS_DELETED = 0;
+    const STATUS_INACTIVE = 9;
+    const STATUS_ACTIVE = 10;
 
-    private static array $_users = [
-        '100' => [
-            'id' => '100',
-            'username' => 'admin',
-            // password: admin
-            'passwordHash' => '$2y$13$gYAywKSkhfZDq9FLNdm7buKnvlRxDexf5xipSMAxQPDUxpaptmZJu',
-            'authKey' => 'test100key',
-            'accessToken' => '100-token',
-        ],
-        '101' => [
-            'id' => '101',
-            'username' => 'demo',
-            // password: demo
-            'passwordHash' => '$2y$13$alRLq1PGVMlGYwS/Y3iy3ewQns1Z8ol8Iq6Zb5k7ZwEhblA1aL29y',
-            'authKey' => 'test101key',
-            'accessToken' => '101-token',
-        ],
-    ];
+
+    /**
+     * @var \common\models\AuthAssignment
+     */
+    public $item_name;
+    public $page_size;
+
+    /**
+     * {@inheritdoc}
+     */
+    public static function tableName(): string
+    {
+        return '{{%user}}';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function rules(): array
+    {
+        return [
+            [['email', 'username', 'password'], 'required', 'on' => 'create'],
+            ['status', 'default', 'value' => self::STATUS_ACTIVE, 'on' => 'default'],
+            ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_INACTIVE, self::STATUS_DELETED]],
+            ['item_name', 'default', 'value' => 'member', 'on' => 'create'],
+            ['username', 'string', 'max' => 254],
+            ['username', 'unique', 'on' => 'create'],
+            ['email', 'required', 'on' => 'default'],
+            ['email', 'email', 'on' => 'default'],
+            ['email', 'email', 'on' => 'create'],
+            ['email', 'unique', 'on' => 'default'],
+            ['email', 'unique', 'on' => 'create'],
+            ['password_confirmation', 'compare', 'compareAttribute' => 'new_password', 'on' => 'create'],
+            [['auth_key', 'password_hash', 'password_reset_token', 'verification_token', 'password'], 'safe'],
+            [['id', 'email', 'username', 'birth_date', 'item_name'], 'safe', 'on' => 'search'],
+        ];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function attributeLabels(): array
+    {
+        return [
+            'id' => Yii::t('app', 'ID'),
+            'email' => Yii::t('app', 'Email'),
+            'username' => Yii::t('app', 'Username'),
+            'password' => Yii::t('app', 'Password'),
+            'password_confirmation' => Yii::t('app', 'Password confirmation'),
+            'status' => Yii::t('app', 'Status'),
+            'item_name' => Yii::t('app', 'Access level'),
+            'created_at' => Yii::t('app', 'Created At'),
+            'updated_at' => Yii::t('app', 'Updated At'),
+        ];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function behaviors(): array
+    {
+        return [
+            'timestamp' => [
+                'class' => TimestampBehavior::class,
+                'createdAtAttribute' => 'created_at',
+                'updatedAtAttribute' => 'updated_at',
+                'value' => new Expression('NOW()'),
+            ],
+        ];
+    }
+
+    public function afterFind(): void
+    {
+        $this->item_name = $this->getRoleName();
+        parent::afterFind();
+    }
+    
+    /**
+     * Relation with AuthAssignment model.
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getRole(): \yii\db\ActiveQuery
+    {
+        return $this->hasOne(AuthAssignment::class, ['user_id' => 'id']);
+    }
+
+    /**
+     * Returns the role name ( item_name )
+     *
+     * @return string
+     */
+    public function getRoleName(): string
+    {
+        return $this->role->item_name ?? 'member';
+    }
 
     /**
      * {@inheritdoc}
@@ -52,8 +151,71 @@ class User extends BaseObject implements IdentityInterface
                 return new static($user);
             }
         }
-
         return null;
+    }
+
+    /**
+     * @return array the possible statuses
+     */
+    public static function statusesList(): array
+    {
+        return [
+            self::STATUS_DELETED => Yii::t('app', 'Deleted'),
+            self::STATUS_INACTIVE => Yii::t('app', 'Inactive'),
+            self::STATUS_ACTIVE => Yii::t('app', 'Active'),
+        ];
+    }   
+
+    /**
+     * Creates data provider instance with search query applied
+     * used to create lists / grids
+     *
+     * @param array $params
+     * @param bool $full
+     * @return ActiveDataProvider
+     */
+    public function search(array $params, bool $full = false): ActiveDataProvider
+    {
+        $this->scenario = 'search';
+
+        $query = self::find();
+        $query->leftJoin('{{%auth_assignment}}', '{{%auth_assignment}}.user_id = {{%user}}.id');
+
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+            'sort'=> [
+                'defaultOrder' => ['id'=>SORT_DESC],
+            ]
+        ]);
+
+        if (!($this->load($params) && $this->validate())) {
+            return $dataProvider;
+        }
+
+        $query->andFilterWhere([
+            '{{%user}}.status' => $this->status,
+            '{{%auth_assignment}}.item_name' => $this->item_name,
+        ]);
+
+        $query->andFilterWhere(['like', '{{%user}}.email', $this->email])
+            ->andFilterWhere(['like', '{{%user}}.lastname', $this->lastname])
+            ->andFilterWhere(['like', '{{%user}}.birth_date', $this->birth_date])
+            ->andFilterWhere(['like', '{{%user}}.created_at', $this->created_at])
+            ->andFilterWhere(['like', '{{%user}}.updated_at', $this->updated_at]);
+
+        return $dataProvider;
+    }
+
+     /**
+     * Finds username by id
+     *
+     * @param string $id
+     * @return string|null
+     */
+    public static function getUsername($id): null|string
+    {
+        $object = static::findOne(['id' => $id, 'status' => self::STATUS_ACTIVE]);
+        return $object ? $object->firstname . ' ' . $object->lastname[0] : 'User not found';
     }
 
     /**
@@ -62,15 +224,9 @@ class User extends BaseObject implements IdentityInterface
      * @param string $username
      * @return static|null
      */
-    public static function findByUsername(string $username): static|null
+    public static function findByUsername($username): null|static
     {
-        foreach (self::$_users as $user) {
-            if (strcasecmp($user['username'], $username) === 0) {
-                return new static($user);
-            }
-        }
-
-        return null;
+        return static::findOne(['username' => $username, 'status' => self::STATUS_ACTIVE]);
     }
 
     /**

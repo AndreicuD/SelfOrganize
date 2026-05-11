@@ -103,6 +103,8 @@ class UserController extends Controller
         return $this->render('login', ['model' => $model]);
     }
 
+    
+
     /**
      * Logout action.
      *

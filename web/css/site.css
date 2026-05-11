@@ -2,7 +2,9 @@
     --primary-color: #e91e63;
     --primary-color-rgb: 233, 30, 99;
     --primary-darker-color: #c2185b;
-    --primary-darker-color-rgb: 194, 24, 91 ;
+    --primary-darker-color-rgb: 194, 24, 91;
+    --secondary-color: #fc9739;
+    --secondary-color-rgb: 252, 116, 57;
 }
 
 main > .container {
@@ -292,45 +294,46 @@ footer {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    transition: background-color 0.3s;
+    transition: 0.3s;
 
     z-index: 1;
 }
 
 .button__icon-wrapper {
-  flex-shrink: 0;
-  width: 25px;
-  height: 25px;
-  position: relative;
-  color: var(--primary-color);
-  background-color: #fff;
-  border-radius: 50%;
-  display: grid;
-  place-items: center;
-  overflow: hidden;
+    flex-shrink: 0;
+    width: 25px;
+    height: 25px;
+    position: relative;
+    color: var(--primary-color);
+    background-color: #fff;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    overflow: hidden;
 }
 
 .cta-btn:hover {
-  background-color: #000;
+    transform: translate(-50%, 30%);
+    background-color: #000;
 }
 
 .cta-btn:hover .button__icon-wrapper {
-  color: #000;
+    color: #000;
 }
 
 .button__icon-svg--copy {
-  position: absolute;
-  transform: translate(-150%, 150%);
+    position: absolute;
+    transform: translate(-150%, 150%);
 }
 
 .cta-btn:hover .button__icon-svg:first-child {
-  transition: transform 0.3s ease-in-out;
-  transform: translate(150%, -150%);
+    transition: transform 0.3s ease-in-out;
+    transform: translate(150%, -150%);
 }
 
 .cta-btn:hover .button__icon-svg--copy {
-  transition: transform 0.3s ease-in-out 0.1s;
-  transform: translate(0);
+    transition: transform 0.3s ease-in-out 0.1s;
+    transform: translate(0);
 }
 
 .hero img {
