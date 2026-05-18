@@ -16,7 +16,7 @@ $items = [
     ],
     [
         'label' => 'Dashboard',
-        'url' => ['/user/index'],
+        'url' => ['/dashboard/index'],
         'visible' => !Yii::$app->user->isGuest,
     ],
 ];

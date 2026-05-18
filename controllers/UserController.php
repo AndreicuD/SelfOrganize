@@ -7,6 +7,7 @@ namespace app\controllers;
 use Yii;
 use app\models\ContactForm;
 use app\models\LoginForm;
+use app\models\SignupForm;
 use yii\captcha\CaptchaAction;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
@@ -36,8 +37,13 @@ class UserController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::class,
-                'only' => ['logout'],
+                'only' => ['signup', 'logout'],
                 'rules' => [
+                    [
+                        'actions' => ['signup'],
+                        'allow' => true,
+                        'roles' => ['?'],
+                    ],
                     [
                         'actions' => ['logout'],
                         'allow' => true,
@@ -71,14 +77,16 @@ class UserController extends Controller
         ];
     }
 
-    /**
-     * Displays user dashboard.
-     *
-     * @return string
-     */
-    public function actionIndex(): string
+    public function actionSignup(): Response|string
     {
-        return $this->render('index');
+        $model = new SignupForm();
+
+        if ($model->load(Yii::$app->request->post()) && $model->signup()) {
+            Yii::$app->session->setFlash('success', 'Account created! You can now log in.');
+            return $this->redirect(['user/login']);
+        }
+
+        return $this->render('signup', ['model' => $model]);
     }
 
     /**
@@ -102,7 +110,6 @@ class UserController extends Controller
 
         return $this->render('login', ['model' => $model]);
     }
-
     
 
     /**

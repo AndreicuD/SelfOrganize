@@ -67,6 +67,7 @@ $config = [
                 'about' => 'site/about',
                 'contact' => 'site/contact',
                 'login' => 'site/login',
+                'dashboard' => 'dashboard/index',
             ],
             'normalizer' => [
                 'class' => 'yii\web\UrlNormalizer',

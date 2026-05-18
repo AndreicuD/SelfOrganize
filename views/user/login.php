@@ -54,7 +54,7 @@ $labelOptions = ['class' => 'form-label fw-semibold small'];
                             <?= Html::img(
                                 Yii::getAlias('@web/images/lightbulb-logo.svg'),
                                 [
-                                    'alt' => 'Yii Framework',
+                                    'alt' => 'sm-logo',
                                     'height' => 64,
                                 ],
                             ) ?>
@@ -105,6 +105,9 @@ $labelOptions = ['class' => 'form-label fw-semibold small'];
 
                     <?php ActiveForm::end(); ?>
 
+                    <p class="text-center text-body-secondary small mb-0 mt-3">
+                        Don't have an account? <?= Html::a('Sign up', ['user/signup']) ?>
+                    </p>
                 </div>
             </div>
 

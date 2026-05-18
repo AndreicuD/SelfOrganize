@@ -5,6 +5,35 @@
     --primary-darker-color-rgb: 194, 24, 91;
     --secondary-color: #fc9739;
     --secondary-color-rgb: 252, 116, 57;
+
+    --accent:       #e91e63;
+    --accent-hover: #c2185b;
+    --accent-muted: #e91e6320;
+    --accent-text:  #ffffff;
+
+    /* Accent color presets */
+    -accent-default:  #e91e63;
+    --accent-ocean:   #2596be;
+    --accent-slate:   #4f6bed;
+    --accent-emerald: #10b981;
+    --accent-teal:    #0d9488;
+    --accent-violet:  #7c3aed;
+    --accent-indigo:  #4338ca;
+    --accent-amber:   #d97706;
+    --accent-rose:    #e11d48;
+    --accent-sage:    #16a34a;
+    --accent-crimson: #dc2626;
+}
+
+.accent-color{
+    color: var(--accent);
+}
+
+.a {
+    color: var(--primary-color);
+}
+.a:hover {
+    color: var(--primary-darker-color);
 }
 
 main > .container {
@@ -180,9 +209,22 @@ small {font-size: 0.800rem; /* 12.8px */}
     border: none;
     transition: opacity .2s, transform .1s;
 }
+.btn-outline-primary {
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+}
 .btn-primary:hover {
     opacity: .9;
     transform: translateY(-1px);
+}
+.btn-outline-primary:hover{
+    color: white;
+    border-color: var(--primary-color);
+    background-color: var(--primary-color);
+}
+.btn-outline-primary:active {
+    border-color: var(--primary-color) !important;
+    background-color: var(--primary-darker-color) !important;
 }
 
 .btn-loginlogout {
@@ -190,7 +232,23 @@ small {font-size: 0.800rem; /* 12.8px */}
     letter-spacing: .02em;
 }
 
+.btn-accent {
+    background-color: var(--accent);
+    color: white;
+}
+.btn-accent:hover {
+    background-color: var(--accent-hover);
+    color: white;
+}
+.btn-accent:active {
+    background-color: var(--accent-hover) !important;
+    color: white !important;
+}
 
+.btn-card {
+    padding-top: 0;
+    padding-bottom: 0;
+}
 
 /* ----------------------- NAVBAR ------------------------ */
 
@@ -221,19 +279,6 @@ small {font-size: 0.800rem; /* 12.8px */}
 
 .login_logoutbutton {
     margin-right: 1em;
-}
-
-/* ----------------------- NAVBAR ------------------------ */
-
-footer {
-    z-index: 9999;
-}
-.footer-transparent {
-    z-index: 9999;
-    background-color: unset();
-}
-.footer-transparent-text {
-    color: rgba(255, 255, 255, 0.8);
 }
 
 /* ----------------------- HERO ------------------------ */
@@ -360,6 +405,60 @@ footer {
     }
 }
 
+
+/* ------------------ DASHBOARD ------------------- */
+
+.user-dashboard {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    /*
+    border-radius: var(--bs-border-radius);
+    border-color: var(--bs-border-color);
+    border-width: 1px;
+    border-style: solid;
+    */
+}
+
+[data-bs-theme="light"] .user-dashboard {
+    background-color: var(--bs-gray-100);
+}
+
+.dashboard-inline-title {
+    display: flex;
+    align-content: stretch;
+    align-items: flex-end;
+}
+.dashboard-inline-title .inline-hr {
+    flex: 1;
+    margin: 1em;
+}
+.dashboard-inline-title .inline-button {
+    align-self: flex-start;
+}
+
+[data-bs-theme="dark"] .col-card {
+    background-color: var(--bs-tertiary-bg);
+}
+
+.card-account {
+    border-bottom: var(--accent) solid 0.3em;
+}
+.card-account-savings {
+    border-bottom-color: var(--bs-gray-500);
+}
+.card-account-cash {
+    border-bottom-color: var(--bs-success);
+}
+.card-account .card-title {
+    margin-bottom: 0;
+}
+.card-account .account-type {
+    margin: 0;
+    padding: 0;
+    color: var(--bs-secondary-color)
+}
 
 /* ----------------------- LOGIN ------------------------ */
 
@@ -521,6 +620,7 @@ footer {
 .site-index,
 .site-error,
 .site-about,
+.user-dashboard,
 .site-contact-success {
     flex: 1;
 }

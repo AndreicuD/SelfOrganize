@@ -48,10 +48,13 @@ class SiteController extends Controller
     /**
      * Displays homepage.
      *
-     * @return string
+     * @return String|Response
      */
-    public function actionIndex(): string
+    public function actionIndex(): String|Response
     {
+        if (!Yii::$app->user->isGuest) {
+            return $this->redirect(['/dashboard/index']);
+        }
         $this->layout = 'index_layout';
         return $this->render('index');
     }

@@ -16,7 +16,10 @@ use yii\db\Expression;
 * @property integer $id [int(auto increment)]
 * @property string $email [varchar(254)]
 * @property string $username [varchar(254)]
-
+*
+* @property string $preferred_accent [varchar(254)]
+* @property string $preferred_currency [varchar(254)]
+*
 * @property integer $status [smallint = 10]
 * @property string $auth_key [varchar(32)]
 * @property string $password_hash [varchar(254)]
@@ -138,7 +141,7 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public static function findIdentity($id): static|null
     {
-        return isset(self::$_users[$id]) ? new static(self::$_users[$id]) : null;
+        return static::findOne(['id' => $id, 'status' => self::STATUS_ACTIVE]);
     }
 
     /**
@@ -198,7 +201,7 @@ class User extends ActiveRecord implements IdentityInterface
         ]);
 
         $query->andFilterWhere(['like', '{{%user}}.email', $this->email])
-            ->andFilterWhere(['like', '{{%user}}.lastname', $this->lastname])
+            ->andFilterWhere(['like', '{{%user}}.username', $this->username])
             ->andFilterWhere(['like', '{{%user}}.birth_date', $this->birth_date])
             ->andFilterWhere(['like', '{{%user}}.created_at', $this->created_at])
             ->andFilterWhere(['like', '{{%user}}.updated_at', $this->updated_at]);
@@ -215,7 +218,7 @@ class User extends ActiveRecord implements IdentityInterface
     public static function getUsername($id): null|string
     {
         $object = static::findOne(['id' => $id, 'status' => self::STATUS_ACTIVE]);
-        return $object ? $object->firstname . ' ' . $object->lastname[0] : 'User not found';
+        return $object ? $object->username : 'User not found';
     }
 
     /**
@@ -238,11 +241,30 @@ class User extends ActiveRecord implements IdentityInterface
     }
 
     /**
+     * {@inheritDoc}
+     * @param string $password
+     * @return void
+     */
+    public function setPassword(string $password): void
+    {
+        $this->password_hash = Yii::$app->security->generatePasswordHash($password);
+    }
+
+    /**
+     * {@inheritDoc}
+     * @return void
+     */
+    public function generateAuthKey(): void
+    {
+        $this->auth_key = Yii::$app->security->generateRandomString();
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function getAuthKey(): string|null
     {
-        return $this->authKey;
+        return $this->auth_key;
     }
 
     /**
@@ -250,6 +272,6 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public function validateAuthKey($authKey): bool
     {
-        return $this->authKey === $authKey;
+        return $this->auth_key === $authKey;
     }
 }

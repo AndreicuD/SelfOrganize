@@ -3,9 +3,10 @@
 /** @var yii\web\View $this */
 
 use yii\helpers\Html;
+use yii\helpers\Url;
 
 $this->title = Yii::$app->name;
-$this->params['meta_description'] = 'A high-performance PHP organization app.';
+$this->params['meta_description'] = 'A high-performance PHP life organization app.';
 $this->params['meta_keywords'] = 'organize, php, yii, self, self organize';
 ?>
 <div class="site-index">
@@ -16,7 +17,7 @@ $this->params['meta_keywords'] = 'organize, php, yii, self, self organize';
             <p class='hero-text'><?= Yii::t('app', 'Do you want to start getting your life together? Start right here, right now!') ?></p>
         </div>
         <!-- From Uiverse.io by Creatlydev --> 
-        <button href="user/signup" class='cta-btn'>
+        <a href="<?= Url::toRoute(['user/signup']) ?>" class='cta-btn'>
             <span class='button__icon-wrapper'>
                 <svg
                     viewBox="0 0 14 15"
@@ -45,15 +46,15 @@ $this->params['meta_keywords'] = 'organize, php, yii, self, self organize';
                 </svg>
             </span>
             Sign Up
-        </button>
+        </a>
         <?= Html::img(
-            Yii::getAlias('@web/images/HeroFadeCropped.png'),
+            Yii::getAlias('@web/images/EfficientHero.png'),
             [
                 'alt' => 'Hero Background',
             ],
         ) ?>
         <?= Html::img(
-            Yii::getAlias('@web/images/HeroFadePhone.png'),
+            Yii::getAlias('@web/images/EfficientHeroPhone.png'),
             [
                 'class' => 'hero-img-phone',
                 'alt' => 'Hero Background',
