@@ -14,6 +14,7 @@ use yii\web\ErrorAction;
 use yii\web\Response;
 
 use app\models\Account;
+use app\models\Transaction;
 
 class DashboardController extends Controller
 {
@@ -77,6 +78,10 @@ class DashboardController extends Controller
 
         $accountModel     = new Account();
         $editAccountModel = new Account();
+
+        $recentTransactions = Transaction::getByUser(Yii::$app->user->id, 8);
+
+        $transactionModel = new Transaction();
         
         $this->layout = "dashboard_layout";
         return $this->render('index', [
@@ -85,6 +90,8 @@ class DashboardController extends Controller
             'totalBalance'     => $totalBalance,
             'accountModel'     => $accountModel,
             'editAccountModel' => $editAccountModel,
+            'recentTransactions'  => $recentTransactions,
+            'transactionModel' => $transactionModel,
         ]);
     }
 }

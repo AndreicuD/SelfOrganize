@@ -27,6 +27,15 @@ $this->registerJsFile(
     Yii::$app->request->baseUrl . '/js/accent.js',
     ['position' => \yii\web\View::POS_HEAD]
 );
+$this->registerJsFile(
+    Yii::$app->request->baseUrl . '/js/dashboard.js',
+    ['position' => \yii\web\View::POS_HEAD]
+);
+
+$this->registerJsFile(
+    'https://cdn.jsdelivr.net/npm/chart.js',
+    ['position' => \yii\web\View::POS_HEAD]
+);
 
 $this->registerJsFile(
     Yii::$app->request->baseUrl . '/js/finance.js',
@@ -34,6 +43,11 @@ $this->registerJsFile(
         'position' => \yii\web\View::POS_END,
         'depends'  => [\yii\web\JqueryAsset::class],
     ]
+);
+
+$this->registerJsFile(
+    Yii::$app->request->baseUrl . '/js/fab.js',
+    ['position' => \yii\web\View::POS_END]
 );
 ?>
 
@@ -56,6 +70,23 @@ $this->registerJsFile(
 <?= $this->render('_footer') ?>
 
 <?php $this->endBody() ?>
+
+<?php
+use app\models\Transaction;
+use app\models\Account;
+
+$transactionModel = new Transaction();
+$fabAccounts = Account::getByUser(Yii::$app->user->id);
+?>
+
+<?= $this->render('//layouts/_fab_modals', [
+    'transactionModel' => $transactionModel,
+    'accounts'         => $fabAccounts,
+]) ?>
+
+<!-- FAB -->
+<?= $this->render('//layouts/_fab') ?>
+
 </body>
 </html>
 <?php $this->endPage() ?>

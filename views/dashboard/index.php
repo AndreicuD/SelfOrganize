@@ -10,7 +10,7 @@ $accountModel = new app\models\Account();
 use app\models\Account;
 
 $this->title = 'Dashboard';
-$this->params['breadcrumbs'][] = $this->title;
+//$this->params['breadcrumbs'][] = $this->title;
 $this->params['meta_description'] = 'User Dashboard with Life Statistics.';
 $this->params['meta_keywords'] = 'yii, yii2, dashboard, statistics, php, framework';
 ?>
@@ -20,9 +20,11 @@ $this->params['meta_keywords'] = 'yii, yii2, dashboard, statistics, php, framewo
     
             <div class="col-md-8">
                 <div class="card col-card h-100">
-                    <div class="card-body">
+                    <div class="card-body" style="position: relative; overflow: hidden;">
                         <h3 class="card-title"><?= Yii::t('app', 'Welcome back') ?>, <span class="accent-color"><?= $user->username ?></span>!</h3>
                         <p class="card-text"><?= Yii::t('app', 'Today you have to do') ?> <a class="accent-color" href="#">X <?= Yii::t('app', 'tasks') ?></a>.</p>
+                        <br>
+                        <canvas id="welcomeTrendChart" width="300" height="60" style="position: absolute; bottom: 0; right: 0; opacity: 0.6;"></canvas>
                     </div>
                 </div>
             </div>
@@ -43,67 +45,229 @@ $this->params['meta_keywords'] = 'yii, yii2, dashboard, statistics, php, framewo
             <h3>Finance:</h3>
             <hr class="inline-hr">
             <button class="btn btn-accent inline-button" data-bs-toggle="modal" data-bs-target="#newAccountModal">
-                + <?= Yii::t('app', 'New Account') ?>
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-plus"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M12 5l0 14" /><path d="M5 12l14 0" /></svg>
+                <?= Yii::t('app', 'New Account') ?>
             </button>
         </div>
 
-        <div class="row row-cols-1 row-cols-md-3 row-cols-lg-4 g-3" id="accounts-grid">
+        <!-- Mobile grid -->
+        <div class="accounts-grid-mobile row row-cols-1 g-4">
             <?php foreach ($accounts as $account): ?>
-                <div class="col">
-                    <div class="card col-card card-account card-account-<?=$account->type?> h-100">
-                        <div class="card-body">
-                            <p class="card-title">
-                                <b><?= Html::encode($account->name) ?>:</b>
-                                <span class="accent-color">
-                                    <?= number_format($account->balance, 2) ?> <?= Html::encode($account->currency) ?>
-                                </span>
-                            </p>
-                            <p class="card-subtitle account-type">
-                                <?= Html::encode(Account::currencyName($account->currency)) ?> - <?= Html::encode(Account::typeList()[$account->type]) ?>
-                            </p>
-                            <div class="mt-2 d-flex gap-2">
-                                <button class="btn btn-sm btn-outline-secondary edit-account-btn"
-                                    data-id="<?= $account->id ?>"
-                                    data-name="<?= Html::encode($account->name) ?>"
-                                    data-currency="<?= Html::encode($account->currency) ?>"
-                                    data-type="<?= Html::encode($account->type) ?>"
-                                    data-balance="<?= $account->balance ?>"
-                                    data-bs-toggle="modal"
-                                    data-bs-target="#editAccountModal">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-edit"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1" /><path d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415" /><path d="M16 5l3 3" /></svg>
-                                    <?= Yii::t('app', 'Edit') ?>
-                                </button>
-                                <button class="btn btn-sm btn-outline-danger delete-account-btn"
-                                    data-id="<?= $account->id ?>"
-                                    data-name="<?= Html::encode($account->name) ?>"
-                                    data-bs-toggle="modal"
-                                    data-bs-target="#deleteAccountModal">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-trash">
-                                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                        <path d="M4 7l16 0" />
-                                        <path d="M10 11l0 6" />
-                                        <path d="M14 11l0 6" />
-                                        <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" />
-                                        <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" />
-                                    </svg>
-                                    <?= Yii::t('app', 'Delete') ?>
-                                </button>
+                <?= $this->render('_account_card', ['account' => $account]) ?>
+            <?php endforeach; ?>
+        </div>
+
+        <!-- Desktop carousel -->
+        <div class="accounts-carousel-wrapper">
+            <?php if(!empty($accounts)): ?>
+                <button class="accounts-nav-btn accounts-nav-prev" id="accounts-prev" aria-label="Previous">&#8592;</button>
+            <?php endif; ?>
+            <div class="accounts-carousel" id="accounts-carousel">
+                <?php foreach ($accounts as $account): ?>
+                    <?= $this->render('_account_card', ['account' => $account]) ?>
+                <?php endforeach; ?>
+            </div>
+            <?php if(!empty($accounts)): ?>
+                <button class="accounts-nav-btn accounts-nav-next" id="accounts-next" aria-label="Next">&#8594;</button>
+            <?php endif; ?>
+        </div>
+
+        <?php if (empty($accounts)): ?>
+            <div class="col-12">
+                <p class="text-body-secondary small">
+                    <?= Yii::t('app', 'No accounts yet. Create one to get started.') ?>
+                </p>
+            </div>
+        <?php endif; ?>
+
+        <?php if(!empty($accounts)): ?>
+            
+            <div class="finance-tabs">
+                <button class="finance-tab active" data-tab="transactions">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 7l-4 4l4 4" /><path d="M5 11h11a4 4 0 0 1 0 8h-1" /></svg>
+                    <?= Yii::t('app', 'Transactions') ?>
+                </button>
+                <button class="finance-tab" data-tab="income">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 5l0 14" /><path d="M16 9l-4 -4l-4 4" /></svg>
+                    <?= Yii::t('app', 'Income') ?>
+                </button>
+                <button class="finance-tab" data-tab="expenses">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 5l0 14" /><path d="M16 15l-4 4l-4 -4" /></svg>
+                    <?= Yii::t('app', 'Expenses') ?>
+                </button>
+                <button class="finance-tab" data-tab="transfers">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M7 16l-4 -4l4 -4" /><path d="M3 12h18" /><path d="M17 8l4 4l-4 4" /></svg>
+                    <?= Yii::t('app', 'Transfers') ?>
+                </button>
+            </div>
+
+            <div class="finance-tab-content">
+
+                <!-- TRANSACTIONS -->
+                <div class="finance-panel active" id="tab-transactions">
+                    <div class="row g-4 mt-0">
+                        <div class="col-lg-6">
+                            <div class="card col-card h-100">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between align-items-center mb-3">
+                                        <h6 class="mb-0 fw-semibold"><?= Yii::t('app', 'Recent Transactions') ?></h6>
+                                        <a href="#" class="small accent-color"><?= Yii::t('app', 'View all') ?> →</a>
+                                    </div>
+                                    <?php if (empty($recentTransactions)): ?>
+                                        <p class="text-body-secondary small"><?= Yii::t('app', 'No transactions yet.') ?></p>
+                                    <?php else: ?>
+                                        <div class="table-responsive">
+                                            <table class="table table-sm table-borderless align-middle mb-0 table-transactions">
+                                                <thead>
+                                                    <tr class="text-body-secondary small">
+                                                        <th><?= Yii::t('app', 'Note') ?></th>
+                                                        <th><?= Yii::t('app', 'Account') ?></th>
+                                                        <th><?= Yii::t('app', 'Date') ?></th>
+                                                        <th class="text-end"><?= Yii::t('app', 'Amount') ?></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <?php foreach ($recentTransactions as $t): ?>
+                                                        <tr>
+                                                            <td class="small"><?= Html::encode($t->note ?: '—') ?></td>
+                                                            <td class="small text-body-secondary"><?= Html::encode($t->account->name) ?></td>
+                                                            <td class="small text-body-secondary"><?= date('d M', strtotime($t->created_at)) ?></td>
+                                                            <td class="text-end small fw-semibold <?= $t->isCredit() ? 'text-success' : 'text-danger' ?>">
+                                                                <?= $t->isCredit() ? '+' : '-' ?><?= number_format($t->amount, 2) ?> <?= $t->currency ?>
+                                                            </td>
+                                                        </tr>
+                                                    <?php endforeach; ?>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    <?php endif; ?>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="card col-card h-100">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between align-items-center mb-3">
+                                        <h6 class="mb-0 fw-semibold"><?= Yii::t('app', 'Balance History') ?></h6>
+                                        <div class="d-flex gap-2">
+                                            <button class="btn btn-sm balance-range-btn active" data-days="7">7d</button>
+                                            <button class="btn btn-sm balance-range-btn" data-days="30">30d</button>
+                                        </div>
+                                    </div>
+                                    <canvas id="balanceHistoryChart" width="100%" height="40"></canvas>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            <?php endforeach; ?>
 
-            <?php if (empty($accounts)): ?>
-                <div class="col-12">
-                    <p class="text-body-secondary small">
-                        <?= Yii::t('app', 'No accounts yet. Create one to get started.') ?>
-                    </p>
+                <!-- INCOME -->
+                <div class="finance-panel" id="tab-income">
+                    <div class="card col-card mt-0">
+                        <div class="card-body">
+                            <p class="text-body-secondary small mb-0"><?= Yii::t('app', 'No income recorded yet.') ?></p>
+                        </div>
+                    </div>
                 </div>
-            <?php endif; ?>
+
+                <!-- EXPENSES -->
+                <div class="finance-panel" id="tab-expenses">
+                    <div class="card col-card mt-0">
+                        <div class="card-body">
+                            <p class="text-body-secondary small mb-0"><?= Yii::t('app', 'No expenses recorded yet.') ?></p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TRANSFERS -->
+                <div class="finance-panel" id="tab-transfers">
+                    <div class="card col-card mt-0">
+                        <div class="card-body">
+                            <p class="text-body-secondary small mb-0"><?= Yii::t('app', 'No transfers recorded yet.') ?></p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            
+        <?php endif; ?>
+        
+        <br>
+        <div class="row row-cols-1">
+            <div class="col">
+                <div class="card col-card">
+                    <div class="card-body">
+                        <p class="card-text">Ceva</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card col-card">
+                    <div class="card-body">
+                        <p class="card-text">Ceva</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card col-card">
+                    <div class="card-body">
+                        <p class="card-text">Ceva</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card col-card">
+                    <div class="card-body">
+                        <p class="card-text">Ceva</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card col-card">
+                    <div class="card-body">
+                        <p class="card-text">Ceva</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card col-card">
+                    <div class="card-body">
+                        <p class="card-text">Ceva</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="card col-card">
+                    <div class="card-body">
+                        <p class="card-text">Ceva</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card col-card">
+                    <div class="card-body">
+                        <p class="card-text">Ceva</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card col-card">
+                    <div class="card-body">
+                        <p class="card-text">Ceva</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="card col-card">
+                    <div class="card-body">
+                        <p class="card-text">Ceva</p>
+                    </div>
+                </div>
+            </div>
         </div>
 
-        
     </div>  
 </div>
 

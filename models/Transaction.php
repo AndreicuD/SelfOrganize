@@ -27,6 +27,8 @@ use app\models\Account;
  */
 class Transaction extends ActiveRecord
 {
+    public $to_account_id;
+
     const TYPE_INCOME       = 'income';
     const TYPE_EXPENSE      = 'expense';
     const TYPE_TRANSFER_IN  = 'transfer_in';
@@ -40,7 +42,7 @@ class Transaction extends ActiveRecord
     public function rules(): array
     {
         return [
-            [['user_id', 'account_id', 'type', 'amount', 'currency'], 'required'],
+            [['user_id', 'account_id', 'type', 'amount'], 'required'],
             [['amount'], 'number', 'min' => 0.01],
             [['currency'], 'string', 'max' => 3],
             [['note'], 'string', 'max' => 256],
@@ -51,6 +53,10 @@ class Transaction extends ActiveRecord
                 self::TYPE_TRANSFER_IN,
                 self::TYPE_TRANSFER_OUT,
             ]],
+            [['to_account_id'], 'integer'],
+            [['to_account_id'], 'required', 'when' => function($model) {
+                return in_array($model->type, ['transfer_out', 'transfer_in']);
+            }],
         ];
     }
 
