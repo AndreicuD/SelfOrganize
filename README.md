@@ -7,3 +7,9 @@
     <source media="(prefers-color-scheme: light)" srcset="docs/images/HomepageLight.png">
     <img src="docs/images/HomepageLight.png" alt="App Homepage">
 </picture>
+
+<picture>
+    <source media="(prefers-color-scheme: dark)" srcset="docs/images/DashboardDark.png">
+    <source media="(prefers-color-scheme: light)" srcset="docs/images/DashboardLight.png">
+    <img src="docs/images/DashboardLight.png" alt="App Dashboard">
+</picture>
