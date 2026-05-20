@@ -15,9 +15,9 @@ $items = [
         'visible' => Yii::$app->user->isGuest,
     ],
     [
-        'label' => 'Dashboard',
-        'url' => ['/dashboard/index'],
-        'visible' => !Yii::$app->user->isGuest,
+        'label' => 'About Us',
+        'url' => ['/site/about'],
+        'visible' => Yii::$app->user->isGuest,
     ],
 ];
 

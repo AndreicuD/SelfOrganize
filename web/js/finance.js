@@ -64,22 +64,37 @@ document.addEventListener('DOMContentLoaded', function () {
         const canvas = document.getElementById('balanceHistoryChart');
         if (!canvas) return;
 
-        const accent = getComputedStyle(document.documentElement).getPropertyValue('--accent').trim() || '#2596be';
+        const weekData = JSON.parse(document.getElementById("balanceHistoryWeek").textContent);
+        const monthData = JSON.parse(document.getElementById("balanceHistoryMonth").textContent);
 
-        // Placeholder data — replace with real data from controller later
-        const labels7  = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
-        const data7    = [820, 850, 810, 890, 870, 920, 923];
-        const labels30 = Array.from({length: 30}, (_, i) => i + 1);
-        const data30   = Array.from({length: 30}, (_, i) => 700 + Math.floor(Math.random() * 300));
+        const data = days === 7 ? weekData : monthData;
+
+        if (!data || !Array.isArray(data)) {
+            console.log("Invalid data!");
+            return;
+        }
+
+        const styles = getComputedStyle(document.documentElement);
+
+        const accent = styles.getPropertyValue('--accent').trim();
+        const textMuted = styles.getPropertyValue('--chart-text-muted').trim();
+        const gridColor = styles.getPropertyValue('--chart-grid-color').trim();
+        const fontSmall = styles.getPropertyValue('--chart-font-small').trim();
+        const fontMedium = styles.getPropertyValue('--chart-font-medium').trim();
+        const fontSmallValue = parseInt(fontSmall);
+        const fontMediumValue = parseInt(fontMedium);
+
+        const labels = data.map(d => d.date);
+        const values = data.map(d => d.amount);
 
         if (balanceChart) balanceChart.destroy();
 
         balanceChart = new Chart(canvas.getContext('2d'), {
             type: 'line',
             data: {
-                labels: days == 7 ? labels7 : labels30,
+                labels: labels,
                 datasets: [{
-                    data: days == 7 ? data7 : data30,
+                    data: values,
                     borderColor: accent,
                     backgroundColor: accent + '20',
                     fill: true,
@@ -94,22 +109,26 @@ document.addEventListener('DOMContentLoaded', function () {
                 plugins: { legend: { display: false } },
                 scales: {
                     x: {
-                        ticks: { color: '#888', font: { size: 11 } },
+                        ticks: { 
+                            color: textMuted, 
+                            font: { size: fontSmallValue }
+                         },
                         grid: { display: false }
                     },
                     y: {
-                        ticks: { color: '#888', font: { size: 11 } },
-                        grid: { color: '#88888820' }
+                        ticks: { 
+                            color: textMuted, 
+                            font: { size: fontSmallValue }
+                        },
+                        grid: { color:  gridColor }
                     }
                 }
             }
         });
     }
 
-    // Initial render
     renderBalanceChart(7);
 
-    // Range toggle
     document.querySelectorAll('.balance-range-btn').forEach(btn => {
         btn.addEventListener('click', function () {
             document.querySelectorAll('.balance-range-btn').forEach(b => b.classList.remove('active'));

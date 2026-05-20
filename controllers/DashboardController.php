@@ -80,10 +80,10 @@ class DashboardController extends Controller
         $editAccountModel = new Account();
 
         $recentTransactions = Transaction::getByUser(Yii::$app->user->id, 8);
-
         $transactionModel = new Transaction();
+        $balanceHistory7  = Account::getBalanceHistory(Yii::$app->user->id, 7);
+        $balanceHistory30 = Account::getBalanceHistory(Yii::$app->user->id, 30);
         
-        $this->layout = "dashboard_layout";
         return $this->render('index', [
             'user'             => $user,
             'accounts'         => $accounts,
@@ -92,6 +92,8 @@ class DashboardController extends Controller
             'editAccountModel' => $editAccountModel,
             'recentTransactions'  => $recentTransactions,
             'transactionModel' => $transactionModel,
+            'balanceHistory7'  => $balanceHistory7,
+            'balanceHistory30' => $balanceHistory30,
         ]);
     }
 }

@@ -55,7 +55,6 @@ class SiteController extends Controller
         if (!Yii::$app->user->isGuest) {
             return $this->redirect(['/dashboard/index']);
         }
-        $this->layout = 'index_layout';
         return $this->render('index');
     }
 
@@ -94,7 +93,6 @@ class SiteController extends Controller
      */
     public function actionAbout(): string
     {
-        return '';
         return $this->render('about');
     }
 }

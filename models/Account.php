@@ -147,4 +147,76 @@ class Account extends ActiveRecord
             ->orderBy(['type' => SORT_ASC])
             ->all();
     }
+
+
+    /**
+     * Get balance history in the last %days time
+     * @param int $userId
+     * @param int $days
+     * @return array{amount: float, date: string[]}
+     */
+    public static function getBalanceHistory(int $userId, int $days): array
+    {
+        $preferred  = \Yii::$app->user->identity->preferred_currency ?? 'RON';
+        $startDate  = date('Y-m-d', strtotime("-{$days} days"));
+
+        // Calculate total balance before the window by working backwards
+        // Current balance minus all transactions after startDate
+        $runningBalance = 0.0;
+        $accounts = self::getByUser($userId);
+
+        foreach ($accounts as $acc) {
+            // Sum of transactions after the window start
+            $afterWindow = (float) Transaction::find()
+                ->where(['account_id' => $acc->id])
+                ->andWhere(['>=', 'created_at', $startDate])
+                ->sum("CASE WHEN type IN ('income','transfer_in') THEN amount ELSE -amount END");
+
+            // Balance before window = current balance minus what happened after
+            $balanceBeforeWindow = (float)$acc->balance - $afterWindow;
+
+            $runningBalance += ExchangeRate::convert(
+                $balanceBeforeWindow,
+                $acc->currency,
+                $preferred
+            );
+        }
+
+        // Get all transactions in the window
+        $transactions = Transaction::find()
+            ->where(['user_id' => $userId])
+            ->andWhere(['>=', 'created_at', $startDate])
+            ->orderBy(['created_at' => SORT_ASC])
+            ->all();
+
+        // Build day-by-day running total
+        $history = [];
+        $current = strtotime($startDate);
+        $end     = strtotime('today');
+
+        while ($current <= $end) {
+            $dayStr = date('Y-m-d', $current);
+
+            foreach ($transactions as $t) {
+                if (substr($t->created_at, 0, 10) === $dayStr) {
+                    $delta = $t->isCredit() ? (float)$t->amount : -(float)$t->amount;
+                    $runningBalance += ExchangeRate::convert(
+                        $delta,
+                        $t->currency,
+                        $preferred
+                    );
+                }
+            }
+
+            $history[] = [
+                'date'   => date('d M', $current),
+                'amount' => round($runningBalance, 2),
+            ];
+
+            $current = strtotime('+1 day', $current);
+        }
+
+        //die(json_encode($history));
+        return $history;
+    }
 }

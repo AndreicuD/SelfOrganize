@@ -8,6 +8,8 @@ use yii\helpers\Url;
 $this->title = Yii::$app->name;
 $this->params['meta_description'] = 'A high-performance PHP life organization app.';
 $this->params['meta_keywords'] = 'organize, php, yii, self, self organize';
+
+$this->params['layout'] = 'hero';
 ?>
 <div class="site-index">
 

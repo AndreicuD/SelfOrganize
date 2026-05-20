@@ -1,8 +1,10 @@
 document.addEventListener('DOMContentLoaded', function () {
 
+    // dummy chart in the dashboard page
+    //in the first card
     const trendCanvas = document.getElementById('welcomeTrendChart');
     if (trendCanvas) {
-        const accent = getComputedStyle(document.documentElement).getPropertyValue('--accent').trim() || '#2596be';
+        const accent = getComputedStyle(document.documentElement).getPropertyValue('--accent').trim();
 
         new Chart(trendCanvas.getContext('2d'), {
             type: 'line',

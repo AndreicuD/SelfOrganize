@@ -23,6 +23,12 @@
     --accent-rose:    #e11d48;
     --accent-sage:    #16a34a;
     --accent-crimson: #dc2626;
+
+    --chart-text-muted: #888888;
+    --chart-grid-color: #8888881f;
+
+    --chart-font-small: 11px;
+    --chart-font-medium: 13px;
 }
 
 .accent-color{

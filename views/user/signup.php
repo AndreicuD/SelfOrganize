@@ -64,15 +64,15 @@ $labelOptions = ['class' => 'form-label fw-semibold small'];
                     <div class="mb-3">
                         <?= $form->field($model, 'username', [
                             'options' => ['class' => 'mb-0'],
-                            'template' => sprintf($htmlIcon, '&#128100;'),
-                            'inputOptions' => ['class' => 'form-control', 'placeholder' => 'username', 'autofocus' => true],
+                            'template' => sprintf($htmlIcon, '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--primary-color)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-man"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M10 16v5" /><path d="M14 16v5" /><path d="M9 9h6l-1 7h-4l-1 -7" /><path d="M5 11c1.333 -1.333 2.667 -2 4 -2" /><path d="M19 11c-1.333 -1.333 -2.667 -2 -4 -2" /><path d="M10 4a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" /></svg>'),
+                            'inputOptions' => ['class' => 'form-control', 'placeholder' => 'Username', 'autofocus' => true],
                         ])->textInput()->label('Username', $labelOptions) ?>
                     </div>
 
                     <div class="mb-3">
                         <?= $form->field($model, 'email', [
                             'options' => ['class' => 'mb-0'],
-                            'template' => sprintf($htmlIcon, '&#9993;'),
+                            'template' => sprintf($htmlIcon, '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--primary-color)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-mail"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M3 7a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v10a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-10" /><path d="M3 7l9 6l9 -6" /></svg>'),
                             'inputOptions' => ['class' => 'form-control', 'placeholder' => 'you@example.com'],
                         ])->textInput(['type' => 'email'])->label('Email', $labelOptions) ?>
                     </div>
@@ -80,7 +80,7 @@ $labelOptions = ['class' => 'form-label fw-semibold small'];
                     <div class="mb-3">
                         <?= $form->field($model, 'password', [
                             'options' => ['class' => 'mb-0'],
-                            'template' => sprintf($htmlIcon, '&#128274;'),
+                            'template' => sprintf($htmlIcon, '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--primary-color)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-lock"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M5 13a2 2 0 0 1 2 -2h10a2 2 0 0 1 2 2v6a2 2 0 0 1 -2 2h-10a2 2 0 0 1 -2 -2v-6" /><path d="M11 16a1 1 0 1 0 2 0a1 1 0 0 0 -2 0" /><path d="M8 11v-4a4 4 0 1 1 8 0v4" /></svg>'),
                             'inputOptions' => ['class' => 'form-control', 'placeholder' => 'Password'],
                         ])->passwordInput()->label('Password', $labelOptions) ?>
                     </div>
@@ -88,7 +88,7 @@ $labelOptions = ['class' => 'form-label fw-semibold small'];
                     <div class="mb-4">
                         <?= $form->field($model, 'password_confirm', [
                             'options' => ['class' => 'mb-0'],
-                            'template' => sprintf($htmlIcon, '&#128274;'),
+                            'template' => sprintf($htmlIcon, '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--primary-color)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-lock"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M5 13a2 2 0 0 1 2 -2h10a2 2 0 0 1 2 2v6a2 2 0 0 1 -2 2h-10a2 2 0 0 1 -2 -2v-6" /><path d="M11 16a1 1 0 1 0 2 0a1 1 0 0 0 -2 0" /><path d="M8 11v-4a4 4 0 1 1 8 0v4" /></svg>'),
                             'inputOptions' => ['class' => 'form-control', 'placeholder' => 'Confirm password'],
                         ])->passwordInput()->label('Confirm Password', $labelOptions) ?>
                     </div>

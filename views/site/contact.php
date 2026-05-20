@@ -72,15 +72,12 @@ $labelOptions = ['class' => 'form-label fw-semibold small'];
             <div class="col-md-8">
                 <div class="p-4 p-lg-5">
                     <div class="text-center mb-4">
-                        <div class="d-md-none mb-3">
+                        <div class="d-md-none mb-3 inline-logo">
                             <?= Html::img(
-                                Yii::getAlias('@web/images/yii3_full_black_for_light.svg'),
-                                [
-                                    'alt' => 'Yii Framework',
-                                    'class' => 'login-mobile-logo',
-                                    'height' => 36,
-                                ],
+                                Yii::getAlias('@web/images/lightbulb-logo.svg'),
+                                ['alt' => Yii::$app->name, 'height' => 64]
                             ) ?>
+                            <?= Yii::$app->name ?>
                         </div>
                         <h1 class="h3 fw-bold mb-1"><?= Html::encode($this->title) ?></h1>
                         <p class="text-body-secondary small">Fill out the form below and we will get back to you</p>
@@ -92,7 +89,7 @@ $labelOptions = ['class' => 'form-label fw-semibold small'];
                         <div class="col-sm-6 mb-3">
                             <?= $form->field($model, 'name', [
                                 'options' => ['class' => 'mb-0'],
-                                'template' => sprintf($htmlIcon, '&#128100;'),
+                                'template' => sprintf($htmlIcon, '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--primary-color)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-man"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M10 16v5" /><path d="M14 16v5" /><path d="M9 9h6l-1 7h-4l-1 -7" /><path d="M5 11c1.333 -1.333 2.667 -2 4 -2" /><path d="M19 11c-1.333 -1.333 -2.667 -2 -4 -2" /><path d="M10 4a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" /></svg>'),
                                 'inputOptions' => [
                                     'class' => 'form-control',
                                     'placeholder' => 'Name',
@@ -104,7 +101,7 @@ $labelOptions = ['class' => 'form-label fw-semibold small'];
                         <div class="col-sm-6 mb-3">
                             <?= $form->field($model, 'email', [
                                 'options' => ['class' => 'mb-0'],
-                                'template' => sprintf($htmlIcon, '&#9993;'),
+                                'template' => sprintf($htmlIcon, '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--primary-color)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-mail"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M3 7a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v10a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-10" /><path d="M3 7l9 6l9 -6" /></svg>'),
                                 'inputOptions' => [
                                     'class' => 'form-control',
                                     'placeholder' => 'email@example.com',
@@ -116,7 +113,7 @@ $labelOptions = ['class' => 'form-label fw-semibold small'];
                     <div class="mb-3">
                         <?= $form->field($model, 'subject', [
                             'options' => ['class' => 'mb-0'],
-                            'template' => sprintf($htmlIcon, '&#128172;'),
+                            'template' => sprintf($htmlIcon, '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--primary-color)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-brand-hipchat"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M17.802 17.292s.077 -.055 .2 -.149c1.843 -1.425 3 -3.49 3 -5.789c0 -4.286 -4.03 -7.764 -9 -7.764c-4.97 0 -9 3.478 -9 7.764c0 4.288 4.03 7.646 9 7.646c.424 0 1.12 -.028 2.088 -.084c1.262 .82 3.104 1.493 4.716 1.493c.499 0 .734 -.41 .414 -.828c-.486 -.596 -1.156 -1.551 -1.416 -2.29l-.002 .001" /><path d="M7.5 13.5c2.5 2.5 6.5 2.5 9 0" /></svg>'),
                             'inputOptions' => [
                                 'class' => 'form-control',
                                 'placeholder' => 'Subject',
