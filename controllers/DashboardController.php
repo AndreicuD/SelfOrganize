@@ -83,7 +83,16 @@ class DashboardController extends Controller
         $transactionModel = new Transaction();
         $balanceHistory7  = Account::getBalanceHistory(Yii::$app->user->id, 7);
         $balanceHistory30 = Account::getBalanceHistory(Yii::$app->user->id, 30);
-        
+        $incomeHistory7   = Account::getDailyTotals(Yii::$app->user->id, 7,  'income');
+        $incomeHistory30  = Account::getDailyTotals(Yii::$app->user->id, 30, 'income');
+        $expenseHistory7  = Account::getDailyTotals(Yii::$app->user->id, 7,  'expense');
+        $expenseHistory30 = Account::getDailyTotals(Yii::$app->user->id, 30, 'expense');
+        $transferHistory7  = Account::getDailyTotals(Yii::$app->user->id, 7,  'transfer_out');
+        $transferHistory30 = Account::getDailyTotals(Yii::$app->user->id, 30, 'transfer_out');
+
+        $monthlyStats = Account::getMonthlyStats(Yii::$app->user->id);
+
+
         return $this->render('index', [
             'user'             => $user,
             'accounts'         => $accounts,
@@ -94,6 +103,13 @@ class DashboardController extends Controller
             'transactionModel' => $transactionModel,
             'balanceHistory7'  => $balanceHistory7,
             'balanceHistory30' => $balanceHistory30,
+            'incomeHistory7'   => $incomeHistory7,
+            'incomeHistory30'  => $incomeHistory30,
+            'expenseHistory7'  => $expenseHistory7,
+            'expenseHistory30' => $expenseHistory30,
+            'transferHistory7'  => $transferHistory7,
+            'transferHistory30' => $transferHistory30,
+            'monthlyStats' => $monthlyStats,
         ]);
     }
 }

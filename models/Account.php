@@ -151,6 +151,8 @@ class Account extends ActiveRecord
 
     /**
      * Get balance history in the last %days time
+     * <br>
+     * !!! getBalanceHistory is a running total - each day carries forward from the previous
      * @param int $userId
      * @param int $days
      * @return array{amount: float, date: string[]}
@@ -164,6 +166,8 @@ class Account extends ActiveRecord
         // Current balance minus all transactions after startDate
         $runningBalance = 0.0;
         $accounts = self::getByUser($userId);
+        // Get active account IDs for this user
+        $activeAccountIds = array_map(fn($acc) => $acc->id, $accounts);
 
         foreach ($accounts as $acc) {
             // Sum of transactions after the window start
@@ -182,9 +186,10 @@ class Account extends ActiveRecord
             );
         }
 
-        // Get all transactions in the window
+        // Get transactions in window — filter to active accounts only
         $transactions = Transaction::find()
             ->where(['user_id' => $userId])
+            ->andWhere(['account_id' => $activeAccountIds])
             ->andWhere(['>=', 'created_at', $startDate])
             ->orderBy(['created_at' => SORT_ASC])
             ->all();
@@ -218,5 +223,93 @@ class Account extends ActiveRecord
 
         //die(json_encode($history));
         return $history;
+    }
+
+    /**
+     * Get balance history by transactions for each day
+     * <br>
+     * !!! getDailyTotal is a daily sum - each day is independent, starts from zero
+     * @param int $userId
+     * @param int $days
+     * @param string $type
+     * @return void
+     */
+    public static function getDailyTotals(int $userId, int $days, string $type): array
+    {
+        $preferred  = \Yii::$app->user->identity->preferred_currency ?? 'RON';
+        $startDate  = date('Y-m-d', strtotime("-{$days} days"));
+        $activeAccountIds = array_map(
+            fn($acc) => $acc->id, 
+            self::getByUser($userId)
+        );
+
+        $transactions = Transaction::find()
+            ->where(['user_id' => $userId, 'type' => $type])
+            ->andWhere(['account_id' => $activeAccountIds])
+            ->andWhere(['>=', 'created_at', $startDate])
+            ->orderBy(['created_at' => SORT_ASC])
+            ->all();
+
+        // Build day-by-day totals
+        $history = [];
+        $current = strtotime($startDate);
+        $end     = strtotime('today');
+
+        while ($current <= $end) {
+            $dayStr = date('Y-m-d', $current);
+            $dayTotal = 0.0;
+
+            foreach ($transactions as $t) {
+                if (substr($t->created_at, 0, 10) === $dayStr) {
+                    $account  = Account::findOne($t->account_id);
+                    $dayTotal += ExchangeRate::convert(
+                        (float)$t->amount,
+                        $t->currency,
+                        $preferred
+                    );
+                }
+            }
+
+            $history[] = [
+                'date'   => date('d M', $current),
+                'amount' => round($dayTotal, 2),
+            ];
+
+            $current = strtotime('+1 day', $current);
+        }
+
+        return $history;
+    }
+
+    /**
+     * Get monthly stats of income, expense and transfers
+     * @param int $userId
+     * @return array{expense: float, income: float, transfers: float}
+     */
+    public static function getMonthlyStats(int $userId): array
+    {
+        $preferred    = \Yii::$app->user->identity->preferred_currency ?? 'RON';
+        $startOfMonth = date('Y-m-01');
+        $activeIds    = array_map(fn($a) => $a->id, self::getByUser($userId));
+
+        $sum = function(string $type) use ($userId, $activeIds, $startOfMonth, $preferred) {
+            $transactions = Transaction::find()
+                ->where(['user_id' => $userId, 'type' => $type])
+                ->andWhere(['account_id' => $activeIds])
+                ->andWhere(['>=', 'created_at', $startOfMonth])
+                ->all();
+
+            $total = 0.0;
+            foreach ($transactions as $t) {
+                $total += ExchangeRate::convert((float)$t->amount, $t->currency, $preferred);
+            }
+            return round($total, 2);
+        };
+
+        return [
+            'income'    => $sum('income'),
+            'expense'   => $sum('expense'),
+            'transfers' => $sum('transfer_out'),
+        ];
     }
 }

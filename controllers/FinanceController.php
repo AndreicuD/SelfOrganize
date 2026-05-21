@@ -14,6 +14,7 @@ use yii\web\ErrorAction;
 use yii\web\Response;
 
 use app\models\Account;
+use app\models\Transaction;
 
 class FinanceController extends Controller
 {
@@ -108,12 +109,15 @@ class FinanceController extends Controller
      */
     public function actionDeleteAccount()
     {
-        $id      = Yii::$app->request->post('id');
+        $id = Yii::$app->request->post('id');
         $account = Account::findOne(['id' => $id, 'user_id' => Yii::$app->user->id]);
 
         if (!$account) {
             throw new \yii\web\NotFoundHttpException('Account not found.');
         }
+
+        // Delete all transactions linked to this account
+        Transaction::deleteAll(['account_id' => $account->id]);
 
         $account->is_active = 0;
         $account->save(false);

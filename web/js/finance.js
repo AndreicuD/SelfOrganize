@@ -59,6 +59,9 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     let balanceChart = null;
+    let incomeChart  = null;
+    let expenseChart = null;
+    let transferChart = null;
 
     function renderBalanceChart(days) {
         const canvas = document.getElementById('balanceHistoryChart');
@@ -127,13 +130,227 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
+    function renderIncomeChart(days) {
+        const canvas = document.getElementById('incomeChart');
+        if (!canvas) return;
+
+        const weekData = JSON.parse(document.getElementById("incomeHistoryWeek").textContent);
+        const monthData = JSON.parse(document.getElementById("incomeHistoryMonth").textContent);
+
+        const data = days === 7 ? weekData : monthData;
+
+        if (!data || !Array.isArray(data)) {
+            console.log("Invalid data!");
+            return;
+        }
+
+        const styles = getComputedStyle(document.documentElement);
+
+        const accent = styles.getPropertyValue('--accent').trim();
+        const textMuted = styles.getPropertyValue('--chart-text-muted').trim();
+        const gridColor = styles.getPropertyValue('--chart-grid-color').trim();
+        const fontSmall = styles.getPropertyValue('--chart-font-small').trim();
+        const fontMedium = styles.getPropertyValue('--chart-font-medium').trim();
+        const fontSmallValue = parseInt(fontSmall);
+        const fontMediumValue = parseInt(fontMedium);
+
+        const labels = data.map(d => d.date);
+        const values = data.map(d => d.amount);
+
+        if (incomeChart) incomeChart.destroy();
+
+        incomeChart = new Chart(canvas.getContext('2d'), {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [{
+                    data: values,
+                    borderColor: accent,
+                    backgroundColor: accent + '20',
+                    fill: true,
+                    tension: 0.4,
+                    pointRadius: days == 7 ? 4 : 2,
+                    pointHoverRadius: 6,
+                    borderWidth: 2,
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: { legend: { display: false } },
+                scales: {
+                    x: {
+                        ticks: { 
+                            color: textMuted, 
+                            font: { size: fontSmallValue }
+                         },
+                        grid: { display: false }
+                    },
+                    y: {
+                        ticks: { 
+                            color: textMuted, 
+                            font: { size: fontSmallValue }
+                        },
+                        grid: { color:  gridColor }
+                    }
+                }
+            }
+        });
+    }
+
+    function renderExpenseChart(days) {
+        const canvas = document.getElementById('expenseChart');
+        if (!canvas) return;
+
+        const weekData = JSON.parse(document.getElementById("expenseHistoryWeek").textContent);
+        const monthData = JSON.parse(document.getElementById("expenseHistoryMonth").textContent);
+
+        const data = days === 7 ? weekData : monthData;
+
+        if (!data || !Array.isArray(data)) {
+            console.log("Invalid data!");
+            return;
+        }
+
+        const styles = getComputedStyle(document.documentElement);
+
+        const accent = styles.getPropertyValue('--accent').trim();
+        const textMuted = styles.getPropertyValue('--chart-text-muted').trim();
+        const gridColor = styles.getPropertyValue('--chart-grid-color').trim();
+        const fontSmall = styles.getPropertyValue('--chart-font-small').trim();
+        const fontMedium = styles.getPropertyValue('--chart-font-medium').trim();
+        const fontSmallValue = parseInt(fontSmall);
+        const fontMediumValue = parseInt(fontMedium);
+
+        const labels = data.map(d => d.date);
+        const values = data.map(d => d.amount);
+
+        if (expenseChart) expenseChart.destroy();
+
+        expenseChart = new Chart(canvas.getContext('2d'), {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [{
+                    data: values,
+                    borderColor: accent,
+                    backgroundColor: accent + '20',
+                    fill: true,
+                    tension: 0.4,
+                    pointRadius: days == 7 ? 4 : 2,
+                    pointHoverRadius: 6,
+                    borderWidth: 2,
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: { legend: { display: false } },
+                scales: {
+                    x: {
+                        ticks: { 
+                            color: textMuted, 
+                            font: { size: fontSmallValue }
+                         },
+                        grid: { display: false }
+                    },
+                    y: {
+                        ticks: { 
+                            color: textMuted, 
+                            font: { size: fontSmallValue }
+                        },
+                        grid: { color:  gridColor }
+                    }
+                }
+            }
+        });
+    }
+
+    function renderTransferChart(days) {
+        const canvas = document.getElementById('transferChart');
+        if (!canvas) return;
+
+        const weekData = JSON.parse(document.getElementById("transferHistoryWeek").textContent);
+        const monthData = JSON.parse(document.getElementById("transferHistoryMonth").textContent);
+
+        const data = days === 7 ? weekData : monthData;
+
+        if (!data || !Array.isArray(data)) {
+            console.log("Invalid data!");
+            return;
+        }
+
+        const styles    = getComputedStyle(document.documentElement);
+        
+        const accent = styles.getPropertyValue('--accent').trim();
+        const textMuted = styles.getPropertyValue('--chart-text-muted').trim();
+        const gridColor = styles.getPropertyValue('--chart-grid-color').trim();
+        const fontSmall = parseInt(styles.getPropertyValue('--chart-font-small').trim());
+        const labels    = data.map(d => d.date);
+        const values    = data.map(d => d.amount);
+
+        if (transferChart) transferChart.destroy();
+
+        transferChart = new Chart(canvas.getContext('2d'), {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [{
+                    data: values,
+                    backgroundColor: accent + '20',
+                    borderColor: accent,
+                    borderWidth: 1,
+                    borderRadius: 4,
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: { legend: { display: false } },
+                scales: {
+                    x: {
+                        ticks: { color: textMuted, font: { size: fontSmall } },
+                        grid: { display: false }
+                    },
+                    y: {
+                        ticks: { color: textMuted, font: { size: fontSmall } },
+                        grid: { color: gridColor },
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    }
+
+
     renderBalanceChart(7);
+    renderIncomeChart(7);
+    renderExpenseChart(7);
+    renderTransferChart(7);
 
     document.querySelectorAll('.balance-range-btn').forEach(btn => {
         btn.addEventListener('click', function () {
             document.querySelectorAll('.balance-range-btn').forEach(b => b.classList.remove('active'));
             this.classList.add('active');
             renderBalanceChart(parseInt(this.dataset.days));
+        });
+    });
+    document.querySelectorAll('.income-range-btn').forEach(btn => {
+        btn.addEventListener('click', function () {
+            document.querySelectorAll('.income-range-btn').forEach(b => b.classList.remove('active'));
+            this.classList.add('active');
+            renderIncomeChart(parseInt(this.dataset.days));
+        });
+    });
+    document.querySelectorAll('.expense-range-btn').forEach(btn => {
+        btn.addEventListener('click', function () {
+            document.querySelectorAll('.expense-range-btn').forEach(b => b.classList.remove('active'));
+            this.classList.add('active');
+            renderExpenseChart(parseInt(this.dataset.days));
+        });
+    });
+    document.querySelectorAll('.transfer-range-btn').forEach(btn => {
+        btn.addEventListener('click', function () {
+            document.querySelectorAll('.transfer-range-btn').forEach(b => b.classList.remove('active'));
+            this.classList.add('active');
+            renderTransferChart(parseInt(this.dataset.days));
         });
     });
 });

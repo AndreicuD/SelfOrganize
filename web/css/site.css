@@ -265,6 +265,8 @@ small {font-size: 0.800rem; /* 12.8px */}
     flex-direction: column;
     align-items: flex-end;
     gap: 0.75rem;
+
+    width: fit-content;
 }
 
 .fab-main {
@@ -289,12 +291,16 @@ small {font-size: 0.800rem; /* 12.8px */}
 }
 
 .fab-menu {
+    position: fixed;
+    bottom: 5.5rem; /* sits above the fab button */
+    right: 1.5rem;
     display: flex;
     flex-direction: column;
     align-items: flex-end;
     gap: 0.6rem;
     opacity: 0;
     pointer-events: none;
+    visibility: hidden;
     transform: translateY(10px);
     transition: opacity 0.2s, transform 0.2s;
 }
@@ -302,6 +308,7 @@ small {font-size: 0.800rem; /* 12.8px */}
 .fab-menu.open {
     opacity: 1;
     pointer-events: all;
+    visibility: visible;
     transform: translateY(0);
 }
 
@@ -677,7 +684,7 @@ small {font-size: 0.800rem; /* 12.8px */}
     display: block;
 }
 
-.balance-range-btn {
+.chart-range-btn {
     padding: 0.15rem 0.6rem;
     font-size: 0.75rem;
     border: 1px solid var(--bs-border-color);
@@ -687,7 +694,7 @@ small {font-size: 0.800rem; /* 12.8px */}
     transition: all 0.15s;
 }
 
-.balance-range-btn.active {
+.chart-range-btn.active {
     border-color: var(--accent);
     color: var(--accent);
     background: var(--accent-muted);
@@ -695,6 +702,53 @@ small {font-size: 0.800rem; /* 12.8px */}
 
 .table-transactions {
     --bs-table-bg: transparent;
+}
+
+.stat-icon-wrap {
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.stat-icon-income {
+    background: rgba(22, 163, 74, 0.15);
+    color: #16a34a;
+}
+
+.stat-icon-expense {
+    background: rgba(220, 38, 38, 0.15);
+    color: #dc2626;
+}
+
+.stat-icon-transfer {
+    background: var(--accent-muted);
+    color: var(--accent);
+}
+
+[data-bs-theme="dark"] .stat-icon-income {
+    background: rgba(22, 163, 74, 0.2);
+    color: #4ade80;
+}
+
+[data-bs-theme="dark"] .stat-icon-expense {
+    background: rgba(220, 38, 38, 0.2);
+    color: #f87171;
+}
+
+.stat-label {
+    font-size: 0.75rem;
+    color: var(--bs-secondary-color);
+    margin-bottom: 0.1rem;
+}
+
+.stat-value {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 0;
 }
 
 
