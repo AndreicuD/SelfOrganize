@@ -8,7 +8,6 @@ use yii\bootstrap5\ActiveForm;
 use yii\helpers\Html;
 use yii\helpers\Url;
 
-$this->params['showFab'] = true;
 $this->params['pageJs']  = ['settings'];
 
 $this->title = Yii::t('app', 'Settings');
