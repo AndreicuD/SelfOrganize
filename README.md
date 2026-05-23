@@ -1,6 +1,6 @@
 <p align="center">
   <h1 align="center">Self Organize</h1>
-  <p align="center">A personal life-management web app — finances, tasks, habits, and projects in one place.</p>
+  <p align="center">A personal life-management web app - finances, tasks, habits, and projects in one place.</p>
 </p>
 
 <p align="center">
@@ -82,64 +82,6 @@ The goal is simple: one app that covers your finances, daily tasks, habits, and 
 | PWA | Web App Manifest + Service Worker |
 | Dev environment | DDEV |
 
----
-
-## Getting started
-
-### Requirements
-- PHP 8.1+
-- MySQL / MariaDB
-- Composer
-- DDEV (recommended) or any local PHP server
-
-### Installation
-
-```bash
-# Clone the repository
-git clone https://github.com/andreicud/selforganize
-cd selforganize
-
-# Install dependencies
-composer install
-
-# Copy and configure environment
-cp config/db.example.php config/db.php
-# Edit config/db.php with your database credentials
-```
-
-### With DDEV
-
-```bash
-ddev start
-ddev composer install
-```
-
-Then open `https://self-organize.ddev.site` in your browser.
-
----
-
-## Configuration
-
-**`config/params.php`** — set your support email and token expiry:
-```php
-return [
-    'adminEmail'                    => 'admin@example.com',
-    'supportEmail'                  => 'support@example.com',
-    'user.passwordResetTokenExpire' => 86400,
-];
-```
-
-**`config/db.php`** — database connection:
-```php
-return [
-    'class'    => 'yii\db\Connection',
-    'dsn'      => 'mysql:host=localhost;dbname=self_organize',
-    'username' => 'root',
-    'password' => '',
-    'charset'  => 'utf8',
-];
-```
-*/
 ---
 
 ## Personalization
