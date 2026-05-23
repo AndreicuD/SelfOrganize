@@ -68,6 +68,7 @@ $config = [
                 'contact' => 'site/contact',
                 'login' => 'site/login',
                 'dashboard' => 'dashboard/index',
+                'reset-password/<token:.+>' => 'user/reset-password',
             ],
             'normalizer' => [
                 'class' => 'yii\web\UrlNormalizer',

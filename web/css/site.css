@@ -305,6 +305,10 @@ small {font-size: 0.800rem; /* 12.8px */}
     transition: opacity 0.2s, transform 0.2s;
 }
 
+#fabIconPlus {
+    color: white;
+}
+
 .fab-menu.open {
     opacity: 1;
     pointer-events: all;
@@ -974,4 +978,31 @@ small {font-size: 0.800rem; /* 12.8px */}
 
 [data-bs-theme="dark"] .extension-card:hover {
     box-shadow: 0 0 0 1px var(--bs-border-color), 0 8px 24px rgba(0, 0, 0, .4) !important;
+}
+
+/* ------------------ SETTINGS ------------------- */
+
+.accent-presets {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.accent-preset-btn {
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    border: 3px solid transparent;
+    cursor: pointer;
+    transition: transform 0.15s, border-color 0.15s;
+    padding: 0;
+}
+
+.accent-preset-btn:hover {
+    transform: scale(1.15);
+}
+
+.accent-preset-btn.active {
+    border-color: var(--bs-body-color);
+    transform: scale(1.15);
 }

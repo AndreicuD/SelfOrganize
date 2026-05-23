@@ -13,6 +13,7 @@ $this->render('_head');
 $availableJs = [
     'finance'   => '/js/finance.js',
     'dashboard' => '/js/dashboard.js',
+    'settings' => '/js/settings.js',
     'chart' => 'https://cdn.jsdelivr.net/npm/chart.js',
 ];
 
@@ -21,6 +22,7 @@ $this->registerJsFile(
     Yii::$app->request->baseUrl . '/js/accent.js',
     ['position' => \yii\web\View::POS_HEAD]
 );
+
 
 // Load page-specific JS files requested by the view
 $pageJs = $this->params['pageJs'] ?? [];
@@ -41,6 +43,11 @@ if (!empty($this->params['showFab']) && !Yii::$app->user->isGuest) {
     );
 }
 ?>
+<?php if (!Yii::$app->user->isGuest): ?>
+    <script>
+        window.__savedAccent = <?= json_encode(Yii::$app->user->identity->preferred_accent ?? '#e91e63') ?>;
+    </script>
+<?php endif; ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
 <html lang="<?= Yii::$app->language ?>" class="h-100" data-bs-theme="light">

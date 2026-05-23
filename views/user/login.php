@@ -88,6 +88,10 @@ $labelOptions = ['class' => 'form-label fw-semibold small'];
                             ],
                         ])->passwordInput()->label('Your Password', $labelOptions) ?>
                     </div>
+                    <p class="text-body-secondary small mb-3">
+                        <?= Yii::t('app', 'Forgot your current password?') ?>
+                        <?= Html::a(Yii::t('app', 'Reset it here'), ['user/request-password-reset']) ?>
+                    </p>
 
                     <div class="mb-4">
                         <?= $form->field($model, 'rememberMe')->checkbox() ?>

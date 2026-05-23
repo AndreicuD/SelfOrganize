@@ -51,7 +51,7 @@ $labelOptions = ['class' => 'form-label fw-semibold small'];
                         <?= Html::img(
                             Yii::getAlias('@web/images/lightbulb-logo.svg'),
                             [
-                                'alt' => 'Yii Framework',
+                                'alt' => 'Self Organize',
                                 'height' => 64,
                             ],
                         ) ?>
@@ -59,10 +59,10 @@ $labelOptions = ['class' => 'form-label fw-semibold small'];
                     </div>
                     <div>
                         <h2 class="fw-bold mb-3 login-brand-title">
-                            Get In<br>Touch
+                            <?= Yii::t('app', 'Get In') ?><br><?= Yii::t('app', 'Touch') ?>
                         </h2>
                         <p class="opacity-75 mb-0 login-brand-text">
-                            Have a question or business inquiry? We would love to hear from you.
+                            <?= Yii::t('app', 'Have a question or business inquiry? We would love to hear from you.') ?>
                         </p>
                     </div>
                 </div>
@@ -80,7 +80,7 @@ $labelOptions = ['class' => 'form-label fw-semibold small'];
                             <?= Yii::$app->name ?>
                         </div>
                         <h1 class="h3 fw-bold mb-1"><?= Html::encode($this->title) ?></h1>
-                        <p class="text-body-secondary small">Fill out the form below and we will get back to you</p>
+                        <p class="text-body-secondary small"><?= Yii::t('app', 'Fill out the form below and we will get back to you.') ?></p>
                     </div>
 
                     <?php $form = ActiveForm::begin(['id' => 'contact-form']); ?>

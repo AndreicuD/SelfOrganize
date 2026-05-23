@@ -1,4 +1,5 @@
 function applyAccent(hex) {
+    console.log("Trying to apply accent color.")
     const root = document.documentElement;
     root.style.setProperty('--accent', hex);
     root.style.setProperty('--accent-hover', darkenHex(hex, 10));
@@ -21,5 +22,6 @@ function getLuminance(hex) {
 }
 
 // Apply saved accent on page load
-const saved = localStorage.getItem('accent');
+const saved = window.__savedAccent || localStorage.getItem('accent');
+console.log(saved);
 if (saved) applyAccent(saved);
