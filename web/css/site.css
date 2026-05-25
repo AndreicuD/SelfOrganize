@@ -539,6 +539,7 @@ small {font-size: 0.800rem; /* 12.8px */}
 }
 
 .dashboard-inline-title {
+    margin: 1em 0 1em;
     display: flex;
     align-content: stretch;
     align-items: flex-end;
@@ -554,6 +555,41 @@ small {font-size: 0.800rem; /* 12.8px */}
 [data-bs-theme="dark"] .col-card {
     background-color: var(--bs-tertiary-bg);
 }
+
+/* SHORTCUT CARD */
+.dashboard-shortcut-card {
+    cursor: pointer;
+    transition: border-color 0.25s, box-shadow 0.25s;
+    overflow: hidden;
+    position: relative;
+    text-decoration: none;
+    color: inherit;
+}
+
+.dashboard-shortcut-card::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 60%;
+    background: linear-gradient(to top, var(--accent-muted), transparent);
+    opacity: 0;
+    transition: opacity 0.3s;
+    pointer-events: none;
+}
+
+.dashboard-shortcut-card:hover {
+    border-color: var(--accent-muted);
+    box-shadow: 0 0 0 1px var(--accent-muted);
+    color: inherit;
+}
+
+.dashboard-shortcut-card:hover::after {
+    opacity: 1;
+}
+
+
 
 .card-account {
     border-bottom: var(--accent) solid 0.3em;
@@ -572,7 +608,6 @@ small {font-size: 0.800rem; /* 12.8px */}
     padding: 0;
     color: var(--bs-secondary-color)
 }
-
 
 .accounts-carousel-wrapper {
     display: none;

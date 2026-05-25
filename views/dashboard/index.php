@@ -17,16 +17,17 @@ $this->params['meta_keywords'] = 'yii, yii2, dashboard, statistics, php, framewo
 $this->params['showFab'] = true;
 $this->params['pageJs']  = ['chart', 'finance', 'dashboard'];
 $this->params['layout'] = 'dashboard';
+
 ?>
 <div class="user-dashboard">
     <div class="container">
-        <div class="row row-cols-1 py-4 g-3">
+        <div class="row row-cols-1 py-2 g-4 mb-2">
     
             <div class="col-md-8">
                 <div class="card col-card h-100">
                     <div class="card-body" style="position: relative; overflow: hidden;">
                         <h3 class="card-title"><?= Yii::t('app', 'Welcome back') ?>, <span class="accent-color"><?= $user->username ?></span>!</h3>
-                        <p class="card-text"><?= Yii::t('app', 'Today you have to do') ?> <a class="accent-color" href="#">X <?= Yii::t('app', 'tasks') ?></a>.</p>
+                        <p class="card-text text-body-secondary"><?= Yii::t('app', 'Hope you feel well!') ?></p>
                         <br>
                         <canvas id="welcomeTrendChart" width="300" height="60" style="position: absolute; bottom: 0; right: 0; opacity: 0.3;"></canvas>
                     </div>
@@ -46,6 +47,129 @@ $this->params['layout'] = 'dashboard';
             </div>
     
         </div>
+
+        <hr>
+
+        <!-- Second row — Notifications + Tasks + Calendar -->
+        <div class="row row-cols-1 row-cols-md-3 py-2 g-3 mb-2">
+
+            <!-- Notifications -->
+            <div class="col">
+                <a href="#" class="card col-card h-100 dashboard-shortcut-card">
+                    <div class="card-body d-flex align-items-center gap-3">
+                        <div class="dashboard-shortcut-icon position-relative">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-bell accent-color"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M10 5a2 2 0 1 1 4 0a7 7 0 0 1 4 6v3a4 4 0 0 0 2 3h-16a4 4 0 0 0 2 -3v-3a7 7 0 0 1 4 -6" /><path d="M9 17v1a3 3 0 0 0 6 0v-1" /></svg>
+                            <?php if ($unreadNotifications > 0): ?>
+                                <span class="notification-dot"></span>
+                            <?php endif; ?>
+                        </div>
+                        <div class="flex-grow-1">
+                            <h5 class="mb-0 fw-semibold"><?= Yii::t('app', 'Notifications') ?></h5>
+                            <p class="text-body-secondary small mb-0">
+                                <?php if ($unreadNotifications > 0): ?>
+                                    <?= $unreadNotifications ?> <?= Yii::t('app', 'Unread') ?>
+                                <?php else: ?>
+                                    <?= Yii::t('app', "You're all caught up!") ?>
+                                <?php endif; ?>
+                            </p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Notes -->
+            <div class="col">
+                <a href="#" class="card col-card h-100 dashboard-shortcut-card">
+                    <div class="card-body d-flex align-items-center gap-3">
+                        <div class="dashboard-shortcut-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="accent-color icon icon-tabler icons-tabler-outline icon-tabler-notebook"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M6 4h11a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-11a1 1 0 0 1 -1 -1v-14a1 1 0 0 1 1 -1m3 0v18" /><path d="M13 8l2 0" /><path d="M13 12l2 0" /></svg>
+                        </div>
+                        <div class="flex-grow-1">
+                            <h5 class="mb-0 fw-semibold"><?= Yii::t('app', 'Notes') ?></h5>
+                            <p class="text-body-secondary small mb-0">
+                                <?= Yii::t('app', 'Journal your way through life!') ?>
+                            </p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Calendar -->
+            <div class="col">
+                <a href="#" class="card col-card h-100 dashboard-shortcut-card">
+                    <div class="card-body d-flex align-items-center gap-3">
+                        <div class="dashboard-shortcut-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="accent-color icon icon-tabler icons-tabler-outline icon-tabler-calendar-event"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M4 7a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2l0 -12" /><path d="M16 3l0 4" /><path d="M8 3l0 4" /><path d="M4 11l16 0" /><path d="M8 15h2v2h-2l0 -2" /></svg>
+                        </div>
+                        <div class="flex-grow-1">
+                            <h5 class="mb-0 fw-semibold"><?= Yii::t('app', 'Calendar') ?></h5>
+                            <p class="text-body-secondary small mb-0">
+                                <?= Yii::t('app', 'View upcoming events') ?>
+                            </p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+        </div>
+
+        <!-- Third row — Tasks + Goals + Projects -->
+        <div class="row row-cols-1 row-cols-md-3 g-3 mb-2">
+
+            <!-- Tasks -->
+            <div class="col">
+                <a href="#" class="card col-card h-100 dashboard-shortcut-card">
+                    <div class="card-body d-flex align-items-center gap-3">
+                        <div class="dashboard-shortcut-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="accent-color icon icon-tabler icons-tabler-outline icon-tabler-list-check"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M3.5 5.5l1.5 1.5l2.5 -2.5" /><path d="M3.5 11.5l1.5 1.5l2.5 -2.5" /><path d="M3.5 17.5l1.5 1.5l2.5 -2.5" /><path d="M11 6l9 0" /><path d="M11 12l9 0" /><path d="M11 18l9 0" /></svg>
+                        </div>
+                        <div class="flex-grow-1">
+                            <h5 class="mb-0 fw-semibold"><?= Yii::t('app', 'Tasks') ?></h5>
+                            <p class="text-body-secondary small mb-0">
+                                <?= ($remainingTasks > 0) ? $remainingTasks : Yii::t('app', 'None') ?> <?= Yii::t('app', 'due today') ?>
+                            </p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            
+            <!-- Goals -->
+            <div class="col">
+                <a href="#" class="card col-card h-100 dashboard-shortcut-card">
+                    <div class="card-body d-flex align-items-center gap-3">
+                        <div class="dashboard-shortcut-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="accent-color"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 11l3 3l8 -8" /><path d="M20 12v6a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h9" /></svg>
+                        </div>
+                        <div class="flex-grow-1">
+                            <h5 class="mb-0 fw-semibold"><?= Yii::t('app', 'Goals') ?></h5>
+                            <p class="text-body-secondary small mb-0">
+                                <?= Yii::t('app', 'Keep track!') ?>
+                            </p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Projects -->
+            <div class="col">
+                <a href="#" class="card col-card h-100 dashboard-shortcut-card">
+                    <div class="card-body d-flex align-items-center gap-3">
+                        <div class="dashboard-shortcut-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="accent-color icon icon-tabler icons-tabler-outline icon-tabler-device-desktop-cog"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M12 16h-8a1 1 0 0 1 -1 -1v-10a1 1 0 0 1 1 -1h16a1 1 0 0 1 1 1v7" /><path d="M7 20h5" /><path d="M9 16v4" /><path d="M17.001 19a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" /><path d="M19.001 15.5v1.5" /><path d="M19.001 21v1.5" /><path d="M22.032 17.25l-1.299 .75" /><path d="M17.27 20l-1.3 .75" /><path d="M15.97 17.25l1.3 .75" /><path d="M20.733 20l1.3 .75" /></svg>
+                        </div>
+                        <div class="flex-grow-1">
+                            <h5 class="mb-0 fw-semibold"><?= Yii::t('app', 'Projects') ?></h5>
+                            <p class="text-body-secondary small mb-0">
+                                <?= Yii::t('app', 'Keep track!') ?>
+                            </p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+        </div>
+
+        <!-- ---------------------------- -->
 
         <div id='finance-section'>
             <div class="dashboard-inline-title">

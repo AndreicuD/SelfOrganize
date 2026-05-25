@@ -76,6 +76,9 @@ class DashboardController extends Controller
         $accounts = Account::getByUser(Yii::$app->user->id);
         $totalBalance = Account::getTotalBalance(Yii::$app->user->id);
 
+        $unreadNotifications = 1;
+        $remainingTasks = 1;
+
         $accountModel     = new Account();
         $editAccountModel = new Account();
 
@@ -97,6 +100,10 @@ class DashboardController extends Controller
             'user'             => $user,
             'accounts'         => $accounts,
             'totalBalance'     => $totalBalance,
+
+            'unreadNotifications' => $unreadNotifications,
+            'remainingTasks' => $remainingTasks,
+
             'accountModel'     => $accountModel,
             'editAccountModel' => $editAccountModel,
             'recentTransactions'  => $recentTransactions,
