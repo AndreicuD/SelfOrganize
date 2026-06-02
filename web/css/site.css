@@ -398,7 +398,7 @@ small {font-size: 0.800rem; /* 12.8px */}
 
 .hero {
     width: 100vw;
-    height: calc(100vh - 56px);
+    height: 100vh;
     overflow: hidden;
 }
 
@@ -416,17 +416,51 @@ small {font-size: 0.800rem; /* 12.8px */}
 .hero-title {
     text-align: center;
     
+    margin-bottom: 0;
+    padding-bottom: 0;
+
     font-family: 'Ubuntu';
     font-weight: bold;
     font-size: 10vw;
 }
 
 .hero-text {
+    margin-top: 0;
+    padding-top: 0;
+
     text-align: center;
     font-family: 'Ubuntu';
     font-size: 1.5em;
     
     z-index: 1;
+}
+
+.hero img {
+    position: absolute;
+    top: -50px;
+    width: 100%;
+    overflow: hidden;
+    z-index: 0;
+}
+
+.hero-img-phone {
+    display: none;
+}
+
+@media(max-width: 767px) {
+    .hero {
+        /*height: calc(100vh - 80px);*/
+        height: 100vh;
+    }
+    .hero-img-phone {
+        display: unset;
+    }
+    .hero-title {
+        font-size: 16vw;
+    }
+    .hero-text {
+        padding-top: 15%;
+    }
 }
 
 /* From Uiverse.io by Creatlydev */ 
@@ -494,30 +528,593 @@ small {font-size: 0.800rem; /* 12.8px */}
     transform: translate(0);
 }
 
-.hero img {
-    position: absolute;
-    top: -50px;
-    width: 100%;
-    overflow: hidden;
-    z-index: 0;
-}
-
-.hero-img-phone {
-    display: none;
-}
-
 @media(max-width: 767px) {
-    .hero {
-        height: calc(100vh - 80px);
-    }
-    .hero-img-phone {
-        display: unset;
-    }
     .cta-btn {
         bottom: 25%;
     }
 }
 
+.scroll-btn {
+	text-align: center;
+	position: absolute;
+	bottom: 7%;
+	left: 50%;
+	transform: translateX(-50%);
+
+    z-index: 1;
+}
+@keyframes bob {
+	0% { transform:translateY(0%) scale(1); }
+	50% { transform:translateY(15%) scale(1.1); }
+	100% { transform:translateY(0%) scale(1); }
+}
+.down-arrow {
+	color: var(--primary-color);
+	animation: bob 1s infinite;
+}
+
+/* ------------------ INDEX ------------------- */
+
+.site-index {
+    overflow: hidden;
+}
+
+.index-section {
+    width: 100%;
+    min-height: 100px;
+    margin-bottom: 5em;
+
+    padding-left: 15%;
+    padding-right: 15%;
+
+    display: flex;
+    align-items: center;
+
+    gap: 2em;
+}
+
+.primary-color-background-section {
+    color: white;
+    background-color: var(--primary-color);
+}
+
+.index-double-section {
+    flex-wrap: nowrap;
+}
+
+.section-side {
+    justify-self: flex-start;
+    width: 50%;
+}
+
+@media(max-width: 767px) {
+    .index-section {
+        padding-left: 30px;
+        padding-right: 30px;
+        /* double of main .container
+        (from the other pages - they have 
+        container in container so the padding stacks) */
+    }
+    .index-double-section {
+        flex-wrap: wrap;
+    }
+    .section-side {
+        width: 100%;
+    }   
+}
+
+@media(max-width: 767px) {
+    #features {
+        flex-wrap: wrap-reverse;
+    }
+}
+
+#features h3 {
+    font-family: "Ubuntu";
+}
+
+.features-eyebrow {
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--primary-color);
+    margin: 0 0 0.75rem;
+}
+
+.features-sub {
+    font-size: 1rem;
+    color: var(--bs-secondary-color);
+    line-height: 1.75;
+    margin: 0.75rem 0 2rem;
+    max-width: 460px;
+}
+.features-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+    margin: 1.5rem 0 1.5rem;
+}
+
+.feature-card {
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 0.75rem;
+    padding: 1rem 1.1rem;
+    transition: border-color 0.2s, background 0.2s;
+}
+
+.feature-card:hover {
+    border-color: var(--primary-color);
+    background: color-mix(in srgb, var(--primary-color) 6%, transparent);
+}
+
+.feature-card-icon {
+    width: 2rem;
+    height: 2rem;
+    border-radius: 0.5rem;
+    background: color-mix(in srgb, var(--primary-color) 15%, transparent);
+    color: var(--primary-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 0.6rem;
+}
+
+.feature-card-title {
+    font-size: 0.875rem;
+    font-weight: 600;
+    margin: 0 0 0.25rem;
+}
+
+.feature-card-desc {
+    font-size: 0.8rem;
+    color: var(--bs-secondary-color);
+    margin: 0;
+    line-height: 1.55;
+}
+
+.laptop-side {
+    height: 100px;
+    overflow: visible;
+    position: relative;
+    pointer-events: none;
+}
+.laptop-side .laptop-photo {
+    width: 100%;
+    position: absolute;
+    left: 30%;
+    bottom: -150%;
+    rotate: 15deg;
+    scale: 1.7;
+    z-index: 2;
+}
+
+@media (max-width: 767px) {
+    .features-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 0.6rem;
+    }
+    .feature-card {
+        padding: 0.875rem;
+    }
+    .laptop-side {
+        height: 100%;
+    }
+    .laptop-side .laptop-photo {
+        width: 100%;
+        position: unset;
+        scale: 1;
+    }
+}
+@media (max-width: 400px) {
+    .features-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+
+
+.how-it-works-section {
+    position: relative;
+
+    background: var(--primary-color);
+    padding-top: 2em;
+    padding-bottom: 4em;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.hiw-inner {
+    width: 100%;
+    margin: 0 auto;
+}
+
+.hiw-eyebrow {
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.6);
+    margin: 0 0 0.75rem;
+}
+
+.hiw-title {
+    font-family: "Ubuntu";
+    font-weight: bold;
+    color: #ffffff;
+    margin: 0 0 2rem;
+}
+
+.hiw-steps {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 0;
+    position: relative;
+}
+
+
+.hiw-step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 1;
+    max-width: 220px;
+    position: relative;
+    z-index: 1;
+}
+
+.hiw-circle {
+    position: relative;
+    width: 160px;
+    height: 160px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 40% 35%,
+        rgba(255, 255, 255, 0.25) 0%,
+        rgba(255, 255, 255, 0.05) 60%,
+        transparent 100%
+    );
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+    cursor: default;
+    transition:
+        transform 0.3s ease,
+        border-color 0.3s ease,
+        background 0.3s ease,
+        box-shadow 0.3s ease;
+
+    overflow: hidden;
+}
+
+.hiw-circle:hover {
+    transform: scale(1.08);
+    border-color: rgba(255, 255, 255, 0.7);
+    background: radial-gradient(circle at 40% 35%,
+        rgba(255, 255, 255, 0.4) 0%,
+        rgba(255, 255, 255, 0.15) 60%,
+        transparent 100%
+    );
+    /*box-shadow: 0 0 40px rgba(255, 255, 255, 0.15);*/
+
+    -webkit-box-shadow:0px 0px 34px 1px rgba(#fff, 1);
+    -moz-box-shadow: 0px 0px 34px 1px rgba(#fff, 1);
+    box-shadow: 0px 0px 34px 1px rgba(#fff, 1);
+}
+
+.hiw-circle-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: #ffffff;
+}
+.hiw-circle-inner svg {
+    height: 48px;
+}
+
+.hiw-step-num {
+    position: absolute;
+    left: 50%;
+    top: 43%;
+    transform: translate(-50%, -50%);
+
+    font-size: 230px;
+
+    font-weight: bold;
+    opacity: 0.2;
+}
+
+.hiw-step-title {
+    font-size: 1.1em;
+    font-weight: 700;
+    color: #ffffff;
+    margin: 0 0 0.4rem;
+}
+
+.hiw-step-desc {
+    font-size: 0.85em;
+    color: rgba(255, 255, 255, 0.7);
+    margin: 0;
+    line-height: 1.6;
+    padding: 0 0.5rem;
+}
+
+@media (max-width: 767px) {
+    .hiw-steps {
+        flex-direction: column;
+        align-items: center;
+        gap: 2.5rem;
+    }
+
+    .hiw-line {
+        display: none;
+    }
+
+    .hiw-step {
+        max-width: 280px;
+    }
+
+    .hiw-circle {
+        width: 140px;
+        height: 140px;
+    }
+
+    .hiw-title {
+        font-size: 1.5rem;
+        margin-bottom: 2.5rem;
+    }
+
+    .hiw-step-num {
+        font-size: 220px;
+    }
+}
+
+.scroll-indicator {
+  position: absolute;
+  top: 40%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  opacity: 0.4;
+  pointer-events: none;
+  overflow: visible;
+
+  z-index: 2;
+}
+
+.scroll-indicator.left {
+  left: 15%;
+}
+
+.scroll-indicator.right {
+  right: 15%;
+}
+
+/* Chevron shape */
+.scroll-indicator span {
+  width: 100px;
+  height: 100px;
+  border-right: 35px solid white;
+  border-bottom: 35px solid white;
+  transform: rotate(45deg);
+  animation: chevronMove 3s infinite;
+  opacity: 0;
+}
+
+/* Stagger animation */
+.scroll-indicator span:nth-child(1) {
+  animation-delay: 0s;
+}
+.scroll-indicator span:nth-child(2) {
+  animation-delay: 0.2s;
+}
+.scroll-indicator span:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+@keyframes chevronMove {
+  0% {
+    opacity: 0;
+    transform: translateY(-10px) rotate(45deg);
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(20px) rotate(45deg);
+  }
+}
+
+@media(max-width: 1450px) {
+    .scroll-indicator.left {
+        left: calc(15% - 100px);
+    }
+
+    .scroll-indicator.right {
+        right: calc(15% - 100px);
+    }
+    /* Chevron shape */
+    .scroll-indicator span {
+        width: 80px;
+        height: 80px;
+        border-right: 30px solid white;
+        border-bottom: 30px solid white;
+    }
+}
+
+@media(max-width: 767px) {
+    .scroll-indicator {
+        display: none;
+    }
+}
+
+
+.comparison-section {
+    padding: 0 25% 5em;
+}
+
+.comparison-eyebrow {
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 0.5rem;
+}
+
+.comparison-title {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #111;
+    margin: 0 0 0.25rem;
+}
+
+.comparison-subtitle {
+    font-size: 15px;
+    color: #666;
+    margin: 0 0 1.75rem;
+}
+
+.comparison-table-wrap {
+    border: 1px solid #e5e5e5;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.comparison-table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+
+.comparison-table th,
+.comparison-table td {
+    padding: 11px 14px;
+    font-size: 13.5px;
+    text-align: center;
+}
+
+.comparison-table th {
+    font-weight: 500;
+    font-size: 12px;
+    color: #888;
+    background: #f9f9f9;
+    border-bottom: 1px solid #e5e5e5;
+}
+
+.comparison-table th:first-child,
+.comparison-table td:first-child {
+    text-align: left;
+    width: 36%;
+}
+
+.comparison-table th.col-lifetrack {
+    background: #fdf0f5;
+    border-bottom: 2px solid var(--accent);
+    color: var(--accent);
+    font-weight: 600;
+    font-size: 13px;
+}
+
+.comparison-table td.col-lifetrack {
+    background: #fdf0f5;
+}
+
+.comparison-table tr:not(:last-child) td {
+    border-bottom: 1px solid #e5e5e5;
+}
+
+.comparison-table .row-label {
+    font-weight: 500;
+    color: #111;
+    font-size: 13.5px;
+}
+
+.comparison-table .row-sub {
+    font-size: 11.5px;
+    color: #888;
+    margin-top: 1px;
+}
+
+.comparison-table .cell-check {
+    color: var(--primary-color);
+    font-size: 18px;
+}
+
+.comparison-table .cell-cross {
+    color: #ccc;
+    font-size: 18px;
+}
+
+.comparison-table .cell-partial {
+    font-size: 12px;
+    color: #888;
+}
+
+.comparison-badge {
+    display: inline-block;
+    background: color-mix(in srgb, var(--accent) 12%, transparent);
+    color: var(--accent);
+    font-size: 11px;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 20px;
+    margin-top: 4px;
+}
+
+/* Dark mode */
+[data-bs-theme="dark"] .comparison-title {
+    color: #f1f1f1;
+}
+
+[data-bs-theme="dark"] .comparison-subtitle {
+    color: #aaa;
+}
+
+[data-bs-theme="dark"] .comparison-table-wrap {
+    border-color: #2e2e2e;
+}
+
+[data-bs-theme="dark"] .comparison-table th {
+    background: #1a1a1a;
+    color: #888;
+    border-bottom-color: #2e2e2e;
+}
+
+[data-bs-theme="dark"] .comparison-table th.col-lifetrack {
+    background: #2d0f1a;
+    color: var(--accent);
+}
+
+[data-bs-theme="dark"] .comparison-table td.col-lifetrack {
+    background: #1e0a12;
+}
+
+[data-bs-theme="dark"] .comparison-table tr:not(:last-child) td {
+    border-bottom-color: #2e2e2e;
+}
+
+[data-bs-theme="dark"] .comparison-table .row-label {
+    color: #f1f1f1;
+}
+
+[data-bs-theme="dark"] .comparison-table .row-sub,
+[data-bs-theme="dark"] .comparison-table .cell-partial {
+    color: #888;
+}
+
+[data-bs-theme="dark"] .comparison-table .cell-cross {
+    color: #444;
+}
+
+[data-bs-theme="dark"] .comparison-badge {
+    background: color-mix(in srgb, var(--accent) 20%, transparent);
+}
 
 /* ------------------ DASHBOARD ------------------- */
 

@@ -5,7 +5,7 @@ $db = require __DIR__ . '/db.php';
 
 $config = [
     'id' => 'basic',
-    'name' => 'Self Organize',
+    'name' => 'LifeTrack',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
     'container' => [
