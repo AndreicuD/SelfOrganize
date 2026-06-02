@@ -882,8 +882,6 @@ small {font-size: 0.800rem; /* 12.8px */}
   opacity: 0.4;
   pointer-events: none;
   overflow: visible;
-
-  z-index: 2;
 }
 
 .scroll-indicator.left {

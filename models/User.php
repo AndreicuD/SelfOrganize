@@ -73,7 +73,7 @@ class User extends ActiveRecord implements IdentityInterface
             ['email', 'unique', 'on' => 'default'],
             ['email', 'unique', 'on' => 'create'],
             ['password_confirmation', 'compare', 'compareAttribute' => 'new_password', 'on' => 'create'],
-            [['auth_key', 'password_hash', 'password_reset_token', 'verification_token', 'password'], 'safe'],
+            [['id', 'email', 'username', 'birth_date', 'item_name', 'preferred_currency', 'preferred_accent', 'auth_key', 'password_hash', 'password_reset_token', 'verification_token', 'password'], 'safe'],
             [['id', 'email', 'username', 'birth_date', 'item_name'], 'safe', 'on' => 'search'],
         ];
     }
