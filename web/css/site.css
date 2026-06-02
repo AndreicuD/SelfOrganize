@@ -1088,7 +1088,7 @@ small {font-size: 0.800rem; /* 12.8px */}
 
 [data-bs-theme="dark"] .comparison-table th.col-lifetrack {
     background: #2d0f1a;
-    color: var(--accent);
+    color: var(--primary-color);
 }
 
 [data-bs-theme="dark"] .comparison-table td.col-lifetrack {
