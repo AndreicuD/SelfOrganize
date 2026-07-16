@@ -233,11 +233,6 @@ small {font-size: 0.800rem; /* 12.8px */}
     background-color: var(--primary-darker-color) !important;
 }
 
-.btn-loginlogout {
-    font-weight: 600;
-    letter-spacing: .02em;
-}
-
 .btn-accent {
     background-color: var(--accent);
     color: white;
@@ -250,10 +245,28 @@ small {font-size: 0.800rem; /* 12.8px */}
     background-color: var(--accent-hover) !important;
     color: white !important;
 }
+.btn-accent:focus {
+    background-color: var(--accent-hover) !important;
+    color: white !important;
+}
+
+.btn-loginlogout.show {
+    background-color: var(--accent-hover);
+    color: white;
+}
+.btn-loginlogout {
+    font-weight: 600;
+    letter-spacing: .02em;
+    background-color: var(--accent-hover);
+}
 
 .btn-card {
     padding-top: 0;
     padding-bottom: 0;
+}
+
+.dropdown-item:active {
+    background-color: var(--accent) !important;
 }
 
 .fab-container {
@@ -1090,7 +1103,8 @@ small {font-size: 0.800rem; /* 12.8px */}
 }
 
 [data-bs-theme="dark"] .comparison-table td.col-lifetrack {
-    background: #1e0a12;
+    /* background: #1e0a12; */
+    background: #2d0f1a;
 }
 
 [data-bs-theme="dark"] .comparison-table tr:not(:last-child) td {
@@ -1175,7 +1189,6 @@ small {font-size: 0.800rem; /* 12.8px */}
 }
 
 .dashboard-shortcut-card:hover {
-    border-color: var(--accent-muted);
     box-shadow: 0 0 0 1px var(--accent-muted);
     color: inherit;
 }

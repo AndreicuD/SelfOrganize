@@ -190,9 +190,9 @@ $this->params['layout'] = 'hero';
     </div>
 
     <section class="comparison-section">
-        <p class="comparison-eyebrow">Why LifeTrack</p>
-        <h2 class="comparison-title">Everything in one place</h2>
-        <p class="comparison-subtitle">Most apps only solve one problem. LifeTrack solves all of them — for free.</p>
+        <!-- <p class="comparison-eyebrow">Why LifeTrack</p> -->
+        <h2 class="comparison-title"><span style="color: var(--primary-color)">Why LifeTrack?</span> Everything in one place.</h2>
+        <p class="comparison-subtitle">Most apps only solve one problem. LifeTrack solves all of them -- for free.</p>
 
         <div class="comparison-table-wrap">
             <table class="comparison-table">
