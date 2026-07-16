@@ -2,7 +2,7 @@ function applyAccent(hex) {
     console.log("Trying to apply accent color.")
     const root = document.documentElement;
     root.style.setProperty('--accent', hex);
-    root.style.setProperty('--accent-hover', darkenHex(hex, 10));
+    root.style.setProperty('--accent-hover', darkenHex(hex, 20));
     root.style.setProperty('--accent-muted', hex + '20');
     root.style.setProperty('--accent-text', getLuminance(hex) > 0.4 ? '#111' : '#fff');
     localStorage.setItem('accent', hex);

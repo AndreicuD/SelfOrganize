@@ -75,41 +75,49 @@ $this->params['layout'] = 'hero';
 
     <div class="index-section index-double-section" id="features">
         <div class="section-side">
-            <p class="features-eyebrow"><?= Yii::t('app', 'Everything in one place') ?></p>
+            <!-- <p class="features-eyebrow"><?= Yii::t('app', 'Everything in one place') ?></p> -->
             <h3><?= Yii::t('app', 'Organize life, achieve goals, track progress, live fully.') ?></h3>
             <p class="features-sub"><?= Yii::t('app', 'LifeTrack brings together everything you need to run your day, your finances, and your long-term goals — without switching between five different apps.') ?></p>
 
             <div class="features-grid">
 
                 <div class="feature-card">
-                    <div class="feature-card-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M17 8v-3a1 1 0 0 0 -1 -1h-10a2 2 0 0 0 0 4h12a1 1 0 0 1 1 1v3m0 4v3a1 1 0 0 1 -1 1h-12a2 2 0 0 1 -2 -2v-12" /><path d="M20 12v4h-4a2 2 0 0 1 0 -4h4" /></svg>
+                    <div class="feature-card-header">
+                        <div class="feature-card-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M17 8v-3a1 1 0 0 0 -1 -1h-10a2 2 0 0 0 0 4h12a1 1 0 0 1 1 1v3m0 4v3a1 1 0 0 1 -1 1h-12a2 2 0 0 1 -2 -2v-12" /><path d="M20 12v4h-4a2 2 0 0 1 0 -4h4" /></svg>
+                        </div>
+                        <p class="feature-card-title"><?= Yii::t('app', 'Finance') ?></p>
                     </div>
-                    <p class="feature-card-title"><?= Yii::t('app', 'Finance') ?></p>
                     <p class="feature-card-desc"><?= Yii::t('app', 'Track accounts, income, expenses and transfers across currencies.') ?></p>
                 </div>
 
                 <div class="feature-card">
-                    <div class="feature-card-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 11l3 3l8 -8" /><path d="M20 12v6a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h9" /></svg>
+                    <div class="feature-card-header">
+                        <div class="feature-card-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 11l3 3l8 -8" /><path d="M20 12v6a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h9" /></svg>
+                        </div>
+                        <p class="feature-card-title"><?= Yii::t('app', 'Tasks') ?></p>
                     </div>
-                    <p class="feature-card-title"><?= Yii::t('app', 'Tasks') ?></p>
                     <p class="feature-card-desc"><?= Yii::t('app', 'Categorized to-dos with quick add from anywhere in the app.') ?></p>
                 </div>
 
                 <div class="feature-card">
-                    <div class="feature-card-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M6 4h11a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-11a1 1 0 0 1 -1 -1v-14a1 1 0 0 1 1 -1m3 0v18" /><path d="M13 8l2 0" /><path d="M13 12l2 0" /></svg>
+                    <div class="feature-card-header">
+                        <div class="feature-card-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M6 4h11a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-11a1 1 0 0 1 -1 -1v-14a1 1 0 0 1 1 -1m3 0v18" /><path d="M13 8l2 0" /><path d="M13 12l2 0" /></svg>
+                        </div>
+                        <p class="feature-card-title"><?= Yii::t('app', 'Notes') ?></p>
                     </div>
-                    <p class="feature-card-title"><?= Yii::t('app', 'Notes') ?></p>
                     <p class="feature-card-desc"><?= Yii::t('app', 'Rich text notes with formatting and images. Capture ideas instantly.') ?></p>
                 </div>
 
                 <div class="feature-card">
-                    <div class="feature-card-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 5a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v4a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1v-4z" /><path d="M14 5a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v4a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1v-4z" /><path d="M4 15a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v4a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1v-4z" /><path d="M14 15a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v4a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1v-4z" /></svg>
+                    <div class="feature-card-header">
+                        <div class="feature-card-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 5a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v4a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1v-4z" /><path d="M14 5a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v4a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1v-4z" /><path d="M4 15a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v4a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1v-4z" /><path d="M14 15a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v4a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1v-4z" /></svg>
+                        </div>
+                        <p class="feature-card-title"><?= Yii::t('app', 'Your dashboard') ?></p>
                     </div>
-                    <p class="feature-card-title"><?= Yii::t('app', 'Your dashboard') ?></p>
                     <p class="feature-card-desc"><?= Yii::t('app', 'Pick your accent color, reorder sections, pin what matters most.') ?></p>
                 </div>
 
@@ -118,7 +126,7 @@ $this->params['layout'] = 'hero';
                 <?= Yii::t('app', 'Everything shown above, on one screen.') ?> 
             </h3>
         </div>
-        <div class="section-side laptop-side">
+        <div class="section-side laptop-side user-select-none">
             <?= Html::img(
                 Yii::getAlias('@web/images/LaptopTransparent.png'),
                 [

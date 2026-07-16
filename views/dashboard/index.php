@@ -21,7 +21,7 @@ $this->params['layout'] = 'dashboard';
 ?>
 <div class="user-dashboard">
     <div class="container">
-        <div class="row row-cols-1 py-2 g-4 mb-2">
+        <div class="row row-cols-1 py-2 g-4 mb-3">
     
             <div class="col-md-8">
                 <div class="card col-card h-100">
@@ -50,8 +50,8 @@ $this->params['layout'] = 'dashboard';
 
         <hr>
 
-        <!-- Second row — Notifications + Tasks + Calendar -->
-        <div class="row row-cols-1 row-cols-md-3 py-2 g-3 mb-2">
+        <!-- Second row — Notifications + Notes + Calendar -->
+        <div class="row row-cols-1 row-cols-md-3 py-2 g-4 mb-3">
 
             <!-- Notifications -->
             <div class="col">
@@ -67,7 +67,7 @@ $this->params['layout'] = 'dashboard';
                             <h5 class="mb-0 fw-semibold"><?= Yii::t('app', 'Notifications') ?></h5>
                             <p class="text-body-secondary small mb-0">
                                 <?php if ($unreadNotifications > 0): ?>
-                                    <?= $unreadNotifications ?> <?= Yii::t('app', 'Unread') ?>
+                                    <span class="big-notification-badge badge rounded-pill"><?= $unreadNotifications ?> <?= Yii::t('app', 'Unread') ?></span>
                                 <?php else: ?>
                                     <?= Yii::t('app', "You're all caught up!") ?>
                                 <?php endif; ?>
@@ -114,7 +114,7 @@ $this->params['layout'] = 'dashboard';
         </div>
 
         <!-- Third row — Tasks + Goals + Projects -->
-        <div class="row row-cols-1 row-cols-md-3 g-3 mb-2">
+        <div class="row row-cols-1 row-cols-md-3 g-4 mb-3">
 
             <!-- Tasks -->
             <div class="col">
@@ -233,7 +233,6 @@ $this->params['layout'] = 'dashboard';
                 </div>
     
                 <div class="finance-tab-content">
-    
                     <!-- TRANSACTIONS -->
                     <div class="finance-panel active" id="tab-transactions">
                         <div class="row g-4 mt-0">
@@ -262,7 +261,7 @@ $this->params['layout'] = 'dashboard';
                                                             <tr>
                                                                 <td class="small"><?= Html::encode($t->note ?: '—') ?></td>
                                                                 <td class="small text-body-secondary"><?= Html::encode($t->account->name) ?></td>
-                                                                <td class="small text-body-secondary"><?= date('d M', strtotime($t->created_at)) ?></td>
+                                                                <td class="small text-body-secondary"><?= date('d M', strtotime($t->transaction_date)) ?></td>
                                                                 <td class="text-end small fw-semibold <?= $t->isCredit() ? 'text-success' : 'text-danger' ?>">
                                                                     <?= $t->isCredit() ? '+' : '-' ?><?= number_format($t->amount, 2) ?> <?= $t->currency ?>
                                                                 </td>
@@ -329,7 +328,7 @@ $this->params['layout'] = 'dashboard';
                                                             <tr>
                                                                 <td class="small"><?= Html::encode($t->note ?: '—') ?></td>
                                                                 <td class="small text-body-secondary"><?= Html::encode($t->account->name) ?></td>
-                                                                <td class="small text-body-secondary"><?= date('d M', strtotime($t->created_at)) ?></td>
+                                                                <td class="small text-body-secondary"><?= date('d M', strtotime($t->transaction_date)) ?></td>
                                                                 <td class="text-end small fw-semibold text-success">
                                                                     +<?= number_format($t->amount, 2) ?> <?= $t->currency ?>
                                                                 </td>
@@ -396,7 +395,7 @@ $this->params['layout'] = 'dashboard';
                                                             <tr>
                                                                 <td class="small"><?= Html::encode($t->note ?: '—') ?></td>
                                                                 <td class="small text-body-secondary"><?= Html::encode($t->account->name) ?></td>
-                                                                <td class="small text-body-secondary"><?= date('d M', strtotime($t->created_at)) ?></td>
+                                                                <td class="small text-body-secondary"><?= date('d M', strtotime($t->transaction_date)) ?></td>
                                                                 <td class="text-end small fw-semibold text-danger">
                                                                     -<?= number_format($t->amount, 2) ?> <?= $t->currency ?>
                                                                 </td>
@@ -467,7 +466,7 @@ $this->params['layout'] = 'dashboard';
                                                                 <td class="small text-body-secondary">
                                                                     <?= $t->relatedTransaction ? Html::encode($t->relatedTransaction->account->name) : '—' ?>
                                                                 </td>
-                                                                <td class="small text-body-secondary"><?= date('d M', strtotime($t->created_at)) ?></td>
+                                                                <td class="small text-body-secondary"><?= date('d M', strtotime($t->transaction_date)) ?></td>
                                                                 <td class="text-end small fw-semibold text-warning">
                                                                     <?= number_format($t->amount, 2) ?> <?= $t->currency ?>
                                                                 </td>

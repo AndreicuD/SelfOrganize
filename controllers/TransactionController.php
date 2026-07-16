@@ -40,96 +40,104 @@ class TransactionController extends Controller
         ];
     }
 
-public function actionAdd()
-{
-    $model = new Transaction();
-    $model->user_id = Yii::$app->user->id;
+    public function actionAdd()
+    {
+        $model = new Transaction();
+        $model->user_id = Yii::$app->user->id;
 
-    if ($model->load(Yii::$app->request->post()) && $model->validate()) {
-        $account = Account::findOne([
-            'id'      => $model->account_id,
-            'user_id' => Yii::$app->user->id,
-        ]);
+        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
+            $account = Account::findOne([
+                'id'      => $model->account_id,
+                'user_id' => Yii::$app->user->id,
+            ]);
 
-        if (!$account) {
-            throw new NotFoundHttpException('Account not found.');
-        }
-
-        $model->currency = $account->currency;
-
-        if ($model->type === 'transfer_out') {
-            $toAccountId = Yii::$app->request->post('Transaction')['to_account_id'] ?? null;
-            $toAccount   = Account::findOne(['id' => $toAccountId, 'user_id' => Yii::$app->user->id]);
-
-            if (!$toAccount) {
-                Yii::$app->session->setFlash('error', 'Destination account not found.');
-                return $this->redirect(['dashboard/index']);
+            if (!$account) {
+                throw new NotFoundHttpException('Account not found.');
             }
 
-            if ($account->balance < $model->amount) {
-                Yii::$app->session->setFlash('error', 'Insufficient balance.');
-                return $this->redirect(['dashboard/index']);
-            }
-
-            // Convert amount to destination currency
-            $convertedAmount = ExchangeRate::convert(
-                (float) $model->amount,
-                $account->currency,
-                $toAccount->currency
+            var_dump(Yii::$app->request->post());
+            
+            $model->transaction_date = date(
+                'Y-m-d H:i:s',
+                strtotime($model->transaction_date)
             );
 
-            // Save transfer_out in source currency
-            $model->type = 'transfer_out';
-            $model->save(false);
+            $model->currency = $account->currency;
 
-            // Save transfer_in in destination currency
-            $transferIn                         = new Transaction();
-            $transferIn->user_id                = Yii::$app->user->id;
-            $transferIn->account_id             = $toAccount->id;
-            $transferIn->type                   = 'transfer_in';
-            $transferIn->amount                 = round($convertedAmount, 2);
-            $transferIn->currency               = $toAccount->currency;
-            $transferIn->note                   = $model->note;
-            $transferIn->related_transaction_id = $model->id;
-            $transferIn->save(false);
+            if ($model->type === 'transfer_out') {
+                $toAccountId = Yii::$app->request->post('Transaction')['to_account_id'] ?? null;
+                $toAccount   = Account::findOne(['id' => $toAccountId, 'user_id' => Yii::$app->user->id]);
 
-            // Link back
-            $model->related_transaction_id = $transferIn->id;
-            $model->save(false);
+                if (!$toAccount) {
+                    Yii::$app->session->setFlash('error', 'Destination account not found.');
+                    return $this->redirect(['dashboard/index']);
+                }
 
-            // Update balances
-            $account->balance   -= $model->amount;
-            $toAccount->balance += round($convertedAmount, 2);
-            $account->save(false);
-            $toAccount->save(false);
-
-            Yii::$app->session->setFlash('success', 'Transfer completed.');
-
-        } else {
-            if ($model->isCredit()) {
-                $account->balance += $model->amount;
-            } else {
                 if ($account->balance < $model->amount) {
                     Yii::$app->session->setFlash('error', 'Insufficient balance.');
                     return $this->redirect(['dashboard/index']);
                 }
-                $account->balance -= $model->amount;
-            }
 
-            $model->currency = $account->currency;
+                // Convert amount to destination currency
+                $convertedAmount = ExchangeRate::convert(
+                    (float) $model->amount,
+                    $account->currency,
+                    $toAccount->currency
+                );
 
-            if ($model->save(false) && $account->save(false)) {
-                Yii::$app->session->setFlash('success', 'Transaction saved.');
+                // Save transfer_out in source currency
+                $model->type = 'transfer_out';
+                $model->save(false);
+
+                // Save transfer_in in destination currency
+                $transferIn                         = new Transaction();
+                $transferIn->user_id                = Yii::$app->user->id;
+                $transferIn->account_id             = $toAccount->id;
+                $transferIn->type                   = 'transfer_in';
+                $transferIn->amount                 = round($convertedAmount, 2);
+                $transferIn->currency               = $toAccount->currency;
+                $transferIn->note                   = $model->note;
+                $transferIn->related_transaction_id = $model->id;
+                $transferIn->transaction_date       = $model->transaction_date;
+                $transferIn->save(false);
+
+                // Link back
+                $model->related_transaction_id = $transferIn->id;
+                $model->save(false);
+
+                // Update balances
+                $account->balance   -= $model->amount;
+                $toAccount->balance += round($convertedAmount, 2);
+                $account->save(false);
+                $toAccount->save(false);
+
+                Yii::$app->session->setFlash('success', 'Transfer completed.');
+
             } else {
-                Yii::$app->session->setFlash('error', 'Failed to save transaction.');
-            }
-        }
-    } else {
-        Yii::$app->session->setFlash('error', implode(' ', $model->getFirstErrors()));
-    }
+                if ($model->isCredit()) {
+                    $account->balance += $model->amount;
+                } else {
+                    if ($account->balance < $model->amount) {
+                        Yii::$app->session->setFlash('error', 'Insufficient balance.');
+                        return $this->redirect(['dashboard/index']);
+                    }
+                    $account->balance -= $model->amount;
+                }
 
-    return $this->redirect(['dashboard/index']);
-}
+                $model->currency = $account->currency;
+
+                if ($model->save(false) && $account->save(false)) {
+                    Yii::$app->session->setFlash('success', 'Transaction saved.');
+                } else {
+                    Yii::$app->session->setFlash('error', 'Failed to save transaction.');
+                }
+            }
+        } else {
+            Yii::$app->session->setFlash('error', implode(' ', $model->getFirstErrors()));
+        }
+
+        return $this->redirect(['dashboard/index']);
+    }
 
     public function actionUpdate()
     {

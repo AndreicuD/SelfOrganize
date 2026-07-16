@@ -35,11 +35,11 @@
     color: var(--accent);
 }
 
-.a {
-    color: var(--primary-color);
+a {
+    color: var(--accent);
 }
-.a:hover {
-    color: var(--primary-darker-color);
+a:hover {
+    color: var(--accent-hover);
 }
 
 main > .container {
@@ -258,6 +258,7 @@ small {font-size: 0.800rem; /* 12.8px */}
     font-weight: 600;
     letter-spacing: .02em;
     background-color: var(--accent-hover);
+    color: white;
 }
 
 .btn-card {
@@ -267,6 +268,12 @@ small {font-size: 0.800rem; /* 12.8px */}
 
 .dropdown-item:active {
     background-color: var(--accent) !important;
+    color: white !important;
+}
+
+#theme-toggle {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
 }
 
 .fab-container {
@@ -407,6 +414,13 @@ small {font-size: 0.800rem; /* 12.8px */}
     margin-right: 1em;
 }
 
+/* ----------------- PHONE NAVIGATION ------------------ */
+
+.big-notification-badge {
+    background-color: var(--accent);
+    color: white;
+}
+
 /* ----------------------- HERO ------------------------ */
 
 .hero {
@@ -482,7 +496,6 @@ small {font-size: 0.800rem; /* 12.8px */}
     bottom: 20%;
     left: 50%;
     transform: translate(-50%, 50%);
-
     line-height: 1;
     text-decoration: none;
     display: inline-flex;
@@ -650,7 +663,8 @@ small {font-size: 0.800rem; /* 12.8px */}
 }
 
 .feature-card {
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    /* border: 1px solid rgba(255, 255, 255, 0.08); */
+    border: none;
     border-radius: 0.75rem;
     padding: 1rem 1.1rem;
     transition: border-color 0.2s, background 0.2s;
@@ -658,7 +672,14 @@ small {font-size: 0.800rem; /* 12.8px */}
 
 .feature-card:hover {
     border-color: var(--primary-color);
-    background: color-mix(in srgb, var(--primary-color) 6%, transparent);
+    background: color-mix(in srgb, var(--primary-color) 3%, transparent);
+}
+
+.feature-card-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 0.75rem;
 }
 
 .feature-card-icon {
@@ -834,10 +855,10 @@ small {font-size: 0.800rem; /* 12.8px */}
     top: 43%;
     transform: translate(-50%, -50%);
 
-    font-size: 230px;
+    font-size: 270px;
 
     font-weight: bold;
-    opacity: 0.2;
+    opacity: 0.1;
 }
 
 .hiw-step-title {
@@ -1324,7 +1345,6 @@ small {font-size: 0.800rem; /* 12.8px */}
 
 .finance-panel {
     display: none;
-    padding-top: 1rem;
 }
 
 .finance-panel.active {

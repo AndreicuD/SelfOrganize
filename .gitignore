@@ -9,3 +9,4 @@ themes/classic/views/
 /vendor
 /.vscode
 bugs.txt
+config/db.php

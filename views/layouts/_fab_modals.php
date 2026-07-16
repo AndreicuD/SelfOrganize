@@ -50,6 +50,25 @@ use yii\helpers\Html;
                 ]) ?>
             </div>
 
+            <div class="mb-3">
+                <?= $expenseForm->field($transactionModel, 'transaction_date', [
+                    'template' => '<label class="form-label small fw-semibold">{label}</label><div class="input-group"><span class="input-group-text">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M4 7a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2z"/>
+                        <path d="M16 3v4"/>
+                        <path d="M8 3v4"/>
+                        <path d="M4 11h16"/>
+                    </svg>
+                    </span>{input}{error}</div>',
+                ])->input('date', [
+                    'class' => 'form-control',
+                    'value' => $transactionModel->transaction_date
+                        ? date('Y-m-d', strtotime($transactionModel->transaction_date))
+                        : date('Y-m-d'),
+                ]) ?>
+            </div>
+
             <div class="mb-4">
                 <?= $expenseForm->field($transactionModel, 'note', [
                     'template' => '<label class="form-label small fw-semibold">{label}</label><div class="input-group"><span class="input-group-text">
@@ -121,6 +140,25 @@ use yii\helpers\Html;
                     'step'        => '0.01',
                     'min'         => '0.01',
                     'class'       => 'form-control',
+                ]) ?>
+            </div>
+
+            <div class="mb-3">
+                <?= $incomeForm->field($transactionModel, 'transaction_date', [
+                    'template' => '<label class="form-label small fw-semibold">{label}</label><div class="input-group"><span class="input-group-text">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M4 7a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2z"/>
+                        <path d="M16 3v4"/>
+                        <path d="M8 3v4"/>
+                        <path d="M4 11h16"/>
+                    </svg>
+                    </span>{input}{error}</div>',
+                ])->input('date', [
+                    'class' => 'form-control',
+                    'value' => $transactionModel->transaction_date
+                        ? date('Y-m-d', strtotime($transactionModel->transaction_date))
+                        : date('Y-m-d'),
                 ]) ?>
             </div>
 
@@ -203,6 +241,25 @@ use yii\helpers\Html;
                     'step'        => '0.01',
                     'min'         => '0.01',
                     'class'       => 'form-control',
+                ]) ?>
+            </div>
+
+            <div class="mb-3">
+                <?= $transferForm->field($transactionModel, 'transaction_date', [
+                    'template' => '<label class="form-label small fw-semibold">{label}</label><div class="input-group"><span class="input-group-text">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M4 7a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2z"/>
+                        <path d="M16 3v4"/>
+                        <path d="M8 3v4"/>
+                        <path d="M4 11h16"/>
+                    </svg>
+                    </span>{input}{error}</div>',
+                ])->input('date', [
+                    'class' => 'form-control',
+                    'value' => $transactionModel->transaction_date
+                        ? date('Y-m-d', strtotime($transactionModel->transaction_date))
+                        : date('Y-m-d'),
                 ]) ?>
             </div>
 

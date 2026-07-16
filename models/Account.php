@@ -173,7 +173,7 @@ class Account extends ActiveRecord
             // Sum of transactions after the window start
             $afterWindow = (float) Transaction::find()
                 ->where(['account_id' => $acc->id])
-                ->andWhere(['>=', 'created_at', $startDate])
+                ->andWhere(['>=', 'transaction_date', $startDate])
                 ->sum("CASE WHEN type IN ('income','transfer_in') THEN amount ELSE -amount END");
 
             // Balance before window = current balance minus what happened after
@@ -190,8 +190,8 @@ class Account extends ActiveRecord
         $transactions = Transaction::find()
             ->where(['user_id' => $userId])
             ->andWhere(['account_id' => $activeAccountIds])
-            ->andWhere(['>=', 'created_at', $startDate])
-            ->orderBy(['created_at' => SORT_ASC])
+            ->andWhere(['>=', 'transaction_date', $startDate])
+            ->orderBy(['transaction_date' => SORT_ASC])
             ->all();
 
         // Build day-by-day running total
@@ -203,7 +203,7 @@ class Account extends ActiveRecord
             $dayStr = date('Y-m-d', $current);
 
             foreach ($transactions as $t) {
-                if (substr($t->created_at, 0, 10) === $dayStr) {
+                if (substr($t->transaction_date, 0, 10) === $dayStr) {
                     $delta = $t->isCredit() ? (float)$t->amount : -(float)$t->amount;
                     $runningBalance += ExchangeRate::convert(
                         $delta,
@@ -246,8 +246,8 @@ class Account extends ActiveRecord
         $transactions = Transaction::find()
             ->where(['user_id' => $userId, 'type' => $type])
             ->andWhere(['account_id' => $activeAccountIds])
-            ->andWhere(['>=', 'created_at', $startDate])
-            ->orderBy(['created_at' => SORT_ASC])
+            ->andWhere(['>=', 'transaction_date', $startDate])
+            ->orderBy(['transaction_date' => SORT_ASC])
             ->all();
 
         // Build day-by-day totals
@@ -260,7 +260,7 @@ class Account extends ActiveRecord
             $dayTotal = 0.0;
 
             foreach ($transactions as $t) {
-                if (substr($t->created_at, 0, 10) === $dayStr) {
+                if (substr($t->transaction_date, 0, 10) === $dayStr) {
                     $account  = Account::findOne($t->account_id);
                     $dayTotal += ExchangeRate::convert(
                         (float)$t->amount,
@@ -296,7 +296,7 @@ class Account extends ActiveRecord
             $transactions = Transaction::find()
                 ->where(['user_id' => $userId, 'type' => $type])
                 ->andWhere(['account_id' => $activeIds])
-                ->andWhere(['>=', 'created_at', $startOfMonth])
+                ->andWhere(['>=', 'transaction_date', $startOfMonth])
                 ->all();
 
             $total = 0.0;

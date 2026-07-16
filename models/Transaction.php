@@ -18,6 +18,7 @@ use app\models\Account;
  * @property string  $currency [varchar(3)]
  * @property string  $note [varchar(256)]
  * @property integer $related_transaction_id
+ * @property string  $transaction_date
  * @property string  $created_at
  * @property string  $updated_at
  *
@@ -57,6 +58,8 @@ class Transaction extends ActiveRecord
             [['to_account_id'], 'required', 'when' => function($model) {
                 return in_array($model->type, ['transfer_out', 'transfer_in']);
             }],
+
+            [['transaction_date'], 'safe'],
         ];
     }
 
@@ -126,7 +129,7 @@ class Transaction extends ActiveRecord
     {
         return self::find()
             ->where(['user_id' => $userId])
-            ->orderBy(['created_at' => SORT_DESC])
+            ->orderBy(['transaction_date' => SORT_DESC, 'created_at' => SORT_DESC])
             ->limit($limit)
             ->all();
     }
@@ -135,7 +138,7 @@ class Transaction extends ActiveRecord
     {
         return self::find()
             ->where(['account_id' => $accountId])
-            ->orderBy(['created_at' => SORT_DESC])
+            ->orderBy(['transaction_date' => SORT_DESC])
             ->limit($limit)
             ->all();
     }
