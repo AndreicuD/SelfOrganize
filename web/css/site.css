@@ -679,7 +679,6 @@ small {font-size: 0.800rem; /* 12.8px */}
     display: flex;
     align-items: center;
     gap: 0.75rem;
-    margin-bottom: 0.75rem;
 }
 
 .feature-card-icon {
@@ -695,7 +694,8 @@ small {font-size: 0.800rem; /* 12.8px */}
 }
 
 .feature-card-title {
-    font-size: 0.875rem;
+    font-family: "Ubuntu";
+    font-size: 16px;
     font-weight: 600;
     margin: 0 0 0.25rem;
 }
@@ -717,7 +717,7 @@ small {font-size: 0.800rem; /* 12.8px */}
     width: 100%;
     position: absolute;
     left: 30%;
-    bottom: -150%;
+    bottom: -160%;
     rotate: 15deg;
     scale: 1.7;
     z-index: 2;
@@ -1308,7 +1308,6 @@ small {font-size: 0.800rem; /* 12.8px */}
     display: flex;
     gap: 0.25rem;
     border-bottom: 1px solid var(--bs-border-color);
-    margin-top: 1.5rem;
     overflow-x: auto;
     scrollbar-width: none;
 }
@@ -1418,7 +1417,136 @@ small {font-size: 0.800rem; /* 12.8px */}
     margin-bottom: 0;
 }
 
+.transactions-page-divide {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: flex-start;
+    align-content: flex-start;
+    gap: 1.5rem;
+}
+.transactions-table {
+    width: 75%;
+}
+.transactions-table .card {
+    min-height: 100%;
+}
 
+.transactions-widgets {
+    width: calc(25% - 1.5rem);
+}
+
+.transaction-type-badge {
+    display: inline-block;
+    font-size: 0.7rem;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 999px;
+    text-transform: capitalize;
+}
+
+.transaction-badge-income {
+    background: rgba(22, 163, 74, 0.15);
+    color: #16a34a;
+}
+
+.transaction-badge-expense {
+    background: rgba(220, 38, 38, 0.15);
+    color: #dc2626;
+}
+
+.transaction-badge-transfer {
+    background: var(--accent-muted);
+    color: var(--accent);
+}
+
+[data-bs-theme="dark"] .transaction-badge-income { background: rgba(22, 163, 74, 0.2); color: #4ade80; }
+[data-bs-theme="dark"] .transaction-badge-expense { background: rgba(220, 38, 38, 0.2); color: #f87171; }
+
+.transaction-filters-header {
+    border-bottom: 1px solid var(--bs-border-color);
+}
+
+.transaction-filter-form .form-control-sm,
+.transaction-filter-form .form-select-sm {
+    font-size: 0.8rem;
+}
+
+@media (max-width: 767px) {
+    .transaction-filters-header {
+        padding: 0.875rem !important;
+    }
+    .transaction-filters-header .btn-sm {
+        font-size: 0.75rem;
+        padding: 0.25rem 0.5rem;
+    }
+    .transactions-table {
+        width: 100%;
+    }
+    .transactions-widgets {
+        width: 100%;
+    }
+}
+
+.transaction-widget-title {
+    margin-bottom: 0;
+    font-size: 1.5em;
+
+    font-weight: bold;
+    text-align: center;
+}
+
+.limit-card-body svg{
+    width:100%;
+    max-width:320px;
+}
+.gauge-bg{
+    fill:none;
+    stroke:#ececec;
+    stroke-width:18;
+    stroke-linecap:round;
+}
+.gauge-progress{
+    fill:none;
+    stroke:var(--accent);
+    stroke-width:18;
+    stroke-linecap:round;
+
+    stroke-dasharray:100;
+    stroke-dashoffset:calc(100*var(--percent));
+
+    transition:stroke-dashoffset .9s ease;
+}
+.gauge-gray {
+    fill:none;
+    stroke:var(--bs-secondary-border-subtle);
+    stroke-width:18;
+    stroke-linecap:round;
+}
+.gauge-value {
+    font-size: 2rem;
+    font-weight:700;
+    fill: var(--bs-body-color);
+}
+.gauge-subtitle {
+    font-size: 1rem;
+    fill: var(--bs-secondary-color);
+}
+.no-limit-set-value {
+    font-size: 1em;
+}
+
+.monthly-stat {
+    padding-top: 0.5em;
+    padding-bottom: 0.5em;
+}
+.monthly-stat-income {
+    padding-top: 0;
+}
+.monthly-stat-transfer {
+    padding-bottom: 1em;
+}
 
 /* ----------------------- LOGIN ------------------------ */
 

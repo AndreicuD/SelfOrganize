@@ -76,7 +76,7 @@ $this->params['layout'] = 'hero';
     <div class="index-section index-double-section" id="features">
         <div class="section-side">
             <!-- <p class="features-eyebrow"><?= Yii::t('app', 'Everything in one place') ?></p> -->
-            <h3><?= Yii::t('app', 'Organize life, achieve goals, track progress, live fully.') ?></h3>
+            <h3><?= Yii::t('app', 'Organize life, achieve goals, track progress') ?>, <span style="color: var(--primary-color)"><?= Yii::t('app', 'live fully') ?></span>.</h3>
             <p class="features-sub"><?= Yii::t('app', 'LifeTrack brings together everything you need to run your day, your finances, and your long-term goals — without switching between five different apps.') ?></p>
 
             <div class="features-grid">

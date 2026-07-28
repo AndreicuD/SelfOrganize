@@ -12,6 +12,7 @@ use yii\web\Response;
 use app\models\Transaction;
 use app\models\Account;
 use app\models\ExchangeRate;
+use app\models\MonthlyLimit;
 
 class TransactionController extends Controller
 {
@@ -22,7 +23,7 @@ class TransactionController extends Controller
                 'class' => AccessControl::class,
                 'rules' => [
                     [
-                        'actions' => ['add', 'update', 'delete'],
+                        'actions' => ['add', 'update', 'delete', 'update-limit', 'index'],
                         'allow'   => true,
                         'roles'   => ['@'],
                     ],
@@ -40,6 +41,135 @@ class TransactionController extends Controller
         ];
     }
 
+    /**
+     * Shows all the users transactions
+     * @return string
+     */
+    public function actionIndex()
+    {
+        $user = Yii::$app->user->identity;
+        $userId  = Yii::$app->user->id;
+        $request = Yii::$app->request;
+
+        // --- Date range from preset or custom inputs ---
+        $preset = $request->get('preset', '');
+        $from   = $request->get('from', '');
+        $to     = $request->get('to', '');
+
+        if ($preset) {
+            switch ($preset) {
+                case 'this_month':
+                    $from = date('Y-m-01');
+                    $to   = date('Y-m-t');
+                    break;
+                case 'last_month':
+                    $from = date('Y-m-01', strtotime('first day of last month'));
+                    $to   = date('Y-m-t',  strtotime('last day of last month'));
+                    break;
+                case 'last_7':
+                    $from = date('Y-m-d', strtotime('-7 days'));
+                    $to   = date('Y-m-d');
+                    break;
+                case 'this_year':
+                    $from = date('Y-01-01');
+                    $to   = date('Y-12-31');
+                    break;
+                case 'all':
+                default:
+                    $from = '';
+                    $to   = '';
+                    break;
+            }
+        }
+
+        // --- Search ---
+        $q = $request->get('q', '');
+
+        // --- Base query ---
+        $query = Transaction::find()
+            ->joinWith('account')
+            ->where(['transaction.user_id' => $userId]);
+
+        if ($from) $query->andWhere(['>=', 'transaction_date', $from]);
+        if ($to)   $query->andWhere(['<=', 'transaction_date', $to]);
+
+        if ($q) {
+            $query->andWhere([
+                'or',
+                ['like', 'transaction.note',   $q],
+                ['like', 'transaction.amount', $q],
+                ['like', 'account.name',       $q],
+            ]);
+        }
+
+        $query->orderBy(['transaction_date' => SORT_DESC, 'transaction.created_at' => SORT_DESC]);
+
+        // --- Stats (unpaginated) ---
+        $allFiltered = $query->with('account')->all();
+
+        $stats = [
+            'income'    => 0.0,
+            'expense'   => 0.0,
+            'transfers' => 0.0,
+            'net'       => 0.0,
+        ];
+
+        foreach ($allFiltered as $t) {
+            match ($t->type) {
+                'income'       => $stats['income']    += (float)$t->amount,
+                'expense'      => $stats['expense']   += (float)$t->amount,
+                'transfer_out' => $stats['transfers'] += (float)$t->amount,
+                default        => null,
+            };
+        }
+        $stats['net'] = $stats['income'] - $stats['expense'];
+
+        // --- Pagination ---
+        $totalCount = $query->count();
+        $pagination = new \yii\data\Pagination([
+            'totalCount' => $totalCount,
+            'pageSize'   => 15,
+            'pageSizeParam' => false,
+        ]);
+
+        $transactions = $query
+            ->offset($pagination->offset)
+            ->limit($pagination->limit)
+            ->all();
+
+        $editTransactionModel = new Transaction();
+        $accounts = Account::getByUser($userId);
+
+        $monthlyStats = Account::getMonthlyStats(Yii::$app->user->id);
+        $monthlyLimit = MonthlyLimit::getByUser(Yii::$app->user->id);
+        if ($monthlyLimit === null) {
+            $monthlyLimit = new MonthlyLimit();
+            $monthlyLimit->user_id = Yii::$app->user->id;
+        }
+
+        return $this->render('index', [
+            'user' => $user,
+
+            'transactions'         => $transactions,
+            'editTransactionModel' => $editTransactionModel,
+            'accounts'             => $accounts,
+            'pagination'           => $pagination,
+            'stats'                => $stats,
+            'q'                    => $q,
+            'from'                 => $from,
+            'to'                   => $to,
+            'preset'               => $preset,
+            'totalCount'           => $totalCount,
+            'monthlyStats' => $monthlyStats,
+            'monthlyLimit' => $monthlyLimit,
+        ]);
+    }
+
+    /**
+     * Add a new Transaction to the DB
+     * @throws Yii\web\NotFoundHttpException
+     * @return Yii\web\Response
+     */
     public function actionAdd()
     {
         $model = new Transaction();
@@ -136,9 +266,14 @@ class TransactionController extends Controller
             Yii::$app->session->setFlash('error', implode(' ', $model->getFirstErrors()));
         }
 
-        return $this->redirect(['dashboard/index']);
+        return $this->redirect(['transaction/index']);
     }
 
+    /**
+     * Update Transaction info in DB
+     * @throws Yii\web\NotFoundHttpException
+     * @return Yii\web\Response
+     */
     public function actionUpdate()
     {
         $id    = Yii::$app->request->post('id');
@@ -182,9 +317,14 @@ class TransactionController extends Controller
             }
         }
 
-        return $this->redirect(['dashboard/index']);
+        return $this->redirect(['transaction/index']);
     }
 
+    /**
+     * Delete Transaction from DB
+     * @throws Yii\web\NotFoundHttpException
+     * @return Yii\web\Response
+     */
     public function actionDelete()
     {
         $id    = Yii::$app->request->post('id');
@@ -212,6 +352,34 @@ class TransactionController extends Controller
         $model->delete();
 
         Yii::$app->session->setFlash('success', 'Transaction deleted.');
-        return $this->redirect(['dashboard/index']);
+        return $this->redirect(['transaction/index']);
+    }
+
+    /**
+     * Update or Create the spending limit for the user
+     * @return Yii\web\Response
+     */
+    public function actionUpdateLimit()
+    {
+        $model = MonthlyLimit::findOne([
+            'user_id' => Yii::$app->user->id,
+        ]);
+
+        if ($model === null) {
+            $model = new MonthlyLimit();
+            $model->user_id = Yii::$app->user->id;
+        }
+
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            Yii::$app->session->setFlash('success', 'Monthly budget updated.');
+        } else {
+            Yii::$app->session->setFlash(
+                'error',
+                print_r($model->getErrors(), true)
+            );
+            // Yii::$app->session->setFlash('error', 'Failed to save monthly budget.');
+        }
+
+        return $this->redirect(['transaction/index']);
     }
 }

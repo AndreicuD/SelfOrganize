@@ -4,6 +4,7 @@
 
 use yii\models\User;
 use yii\helpers\Html;
+use yii\helpers\Url;
 use yii\bootstrap5\ActiveForm;
 
 $accountModel = new app\models\Account();
@@ -175,32 +176,7 @@ $this->params['layout'] = 'dashboard';
             <div class="dashboard-inline-title">
                 <h3>Finance:</h3>
                 <hr class="inline-hr">
-                <button class="btn btn-accent inline-button" data-bs-toggle="modal" data-bs-target="#newAccountModal">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-plus"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M12 5l0 14" /><path d="M5 12l14 0" /></svg>
-                    <?= Yii::t('app', 'New Account') ?>
-                </button>
-            </div>
-    
-            <!-- Mobile grid -->
-            <div class="accounts-grid-mobile row row-cols-1 g-4">
-                <?php foreach ($accounts as $account): ?>
-                    <?= $this->render('_account_card', ['account' => $account]) ?>
-                <?php endforeach; ?>
-            </div>
-    
-            <!-- Desktop carousel -->
-            <div class="accounts-carousel-wrapper">
-                <?php if(!empty($accounts)): ?>
-                    <button class="accounts-nav-btn accounts-nav-prev" id="accounts-prev" aria-label="Previous">&#8592;</button>
-                <?php endif; ?>
-                <div class="accounts-carousel" id="accounts-carousel">
-                    <?php foreach ($accounts as $account): ?>
-                        <?= $this->render('_account_card', ['account' => $account]) ?>
-                    <?php endforeach; ?>
-                </div>
-                <?php if(!empty($accounts)): ?>
-                    <button class="accounts-nav-btn accounts-nav-next" id="accounts-next" aria-label="Next">&#8594;</button>
-                <?php endif; ?>
+                <a href="<?= Url::toRoute(['transaction/index']) ?>" class="btn btn-accent inline-button"><?= Yii::t('app', 'View all') ?> →</a>
             </div>
     
             <?php if (empty($accounts)): ?>
@@ -241,7 +217,7 @@ $this->params['layout'] = 'dashboard';
                                     <div class="card-body">
                                         <div class="d-flex justify-content-between align-items-center mb-3">
                                             <h6 class="mb-0 fw-semibold"><?= Yii::t('app', 'Recent Transactions') ?></h6>
-                                            <a href="#" class="small accent-color"><?= Yii::t('app', 'View all') ?> →</a>
+                                            <!-- <a href="<?= Url::toRoute(['transaction/index']) ?>" class="small accent-color"><?= Yii::t('app', 'View all') ?> →</a> -->
                                         </div>
                                         <?php if (empty($recentTransactions)): ?>
                                             <p class="text-body-secondary small"><?= Yii::t('app', 'No transactions yet.') ?></p>

@@ -353,4 +353,27 @@ document.addEventListener('DOMContentLoaded', function () {
             renderTransferChart(parseInt(this.dataset.days));
         });
     });
+
+    //VIEW ALL TRANSACTIONS PAGE
+    // Transaction page modal population
+    const editTransactionModal = document.getElementById('editTransactionModal');
+    if (editTransactionModal) {
+        editTransactionModal.addEventListener('show.bs.modal', function (e) {
+            const btn = e.relatedTarget;
+            document.getElementById('edit-transaction-id').value      = btn.dataset.id;
+            document.getElementById('edit-transaction-account').value = btn.dataset.account;
+            document.getElementById('edit-transaction-amount').value  = btn.dataset.amount;
+            document.getElementById('edit-transaction-note').value    = btn.dataset.note;
+            document.getElementById('edit-transaction-date').value    = btn.dataset.date;
+        });
+    }
+
+    const deleteTransactionModal = document.getElementById('deleteTransactionModal');
+    if (deleteTransactionModal) {
+        deleteTransactionModal.addEventListener('show.bs.modal', function (e) {
+            const btn = e.relatedTarget;
+            document.getElementById('delete-transaction-id').value         = btn.dataset.id;
+            document.getElementById('delete-transaction-note').textContent = btn.dataset.note;
+        });
+    }
 });
